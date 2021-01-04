@@ -6,16 +6,22 @@
 
 https://github.com/201206030/novel-plus
 
+项目骨架参考了2个方案
+
+1. https://github.com/bullteam/zeus
+2. https://gitee.com/daitougege/GinSkeleton
+
 `Todo List`:
 
 + 搭建项目骨架
-  1. 搭建目录结构  ok
-  2. 项目初始化逻辑     ok
-  3. 配置文件初始化viper配置  ok
-  4. redis缓存配置  ok
-  5. 多数据库配置(添加读写分离配置)  ok
-  6. 路由配置  ok
-  7. 全局统一响应状态
-  8. 全局统一校验
-  9. 
+
+  + 搭建目录结构  ok
++ 项目初始化逻辑     ok
+  + 配置文件初始化viper配置  ok
+  + redis缓存配置  ok
+  + 多数据库配置(添加读写分离配置)  ok
++ 路由配置  ok
+  + 全局统一响应状态 ok
++ 全局统一校验 (参数错误信息未国际化处理, 是英文的错误信息)
+  + 自定义时间格式化信息
 

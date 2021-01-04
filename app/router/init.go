@@ -16,7 +16,7 @@ func InitRouters() *gin.Engine  {
 	router := routerConfig()
 	// 下面开始注册所有路由
 	LoadTest(router)
-
+	LoadBook(router)
 	return router
 }
 

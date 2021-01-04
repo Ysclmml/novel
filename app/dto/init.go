@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -32,6 +33,10 @@ func Bind(c *gin.Context, obj interface{}) error {
 				}
 			}
 			return errors.New(strings.Join(tagErrorMsg, ","))
+		} else if jsonErr, ok := err.(*json.UnmarshalTypeError); ok {
+			return errors.New(jsonErr.Field + "类型错误")
+		} else {
+			// 其他错误
 		}
 	}
 	return nil
