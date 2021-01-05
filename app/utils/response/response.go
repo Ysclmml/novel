@@ -40,6 +40,14 @@ func Success(c *gin.Context, msg string, data interface{}) {
 	ReturnJson(c, http.StatusOK, consts.CurdStatusOkCode, msg, data)
 }
 
+// 返回分页数据
+func PageSuccess(c *gin.Context, data interface{}, total int64) {
+	ReturnJson(c, http.StatusOK, consts.CurdStatusOkCode, "ok", map[string]interface{}{
+		"result": data,
+		"total": total,
+	})
+}
+
 // 直接返回不包含数据的成功
 func Ok(c *gin.Context)  {
 	c.JSON(http.StatusOK, gin.H{

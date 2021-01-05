@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/go-redis/redis"
 	"github.com/spf13/viper"
@@ -37,8 +38,8 @@ func (r *Redis) Get(key string) (string, error) {
 }
 
 // Set value with key and expire time
-func (r *Redis) Set(key string, val string, expire int) error {
-	return r.Client.Set(key, val, time.Duration(expire)).Err()
+func (r *Redis) Set(key string, val string, expireMs time.Duration) error {
+	return r.Client.Set(key, val, time.Millisecond * expireMs).Err()
 }
 
 // Del delete key in redis
@@ -61,7 +62,22 @@ func (r *Redis) Increase(key string) error {
 	return r.Client.Incr(key).Err()
 }
 
-// Set ttl
-func (r *Redis) Expire(key string, dur time.Duration) error {
-	return r.Client.Expire(key, dur).Err()
+// Set ttl 单位ms
+func (r *Redis) Expire(key string, durMs time.Duration) error {
+	return r.Client.Expire(key, time.Millisecond * durMs).Err()
+}
+
+// 设置 时间单位ms
+func (r *Redis) SetStruct(key string, obj interface{}, expireMs time.Duration) error {
+	jsonData, _ := json.Marshal(obj)
+	err := r.Set(key, string(jsonData), expireMs)
+	return err
+}
+
+func (r *Redis) GetStruct(key string, v interface{}) error {
+	if jsonData, err := r.Get(key); err != nil {
+		return err
+	} else {
+		return json.Unmarshal([]byte(jsonData), v)
+	}
 }

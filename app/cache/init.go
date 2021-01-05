@@ -10,12 +10,14 @@ var adapter Adapter
 type Adapter interface {
 	Connect()
 	Get(key string) (string, error)
-	Set(key string, val string, expire int) error
+	Set(key string, val string, expireMs time.Duration) error
 	Del(key string) error
 	HashGet(hk, key string) (string, error)
 	HashDel(hk, key string) error
 	Increase(key string) error
-	Expire(key string, dur time.Duration) error
+	Expire(key string, expireMs time.Duration) error
+	SetStruct(key string, obj interface{}, expireMs time.Duration) error
+	GetStruct(key string, v interface{}) error
 }
 
 func SetUp() {
@@ -28,8 +30,8 @@ func GetClient() *redis.Client {
 }
 
 // Set val in cache
-func Set(key, val string, expire int) error {
-	return adapter.Set(key, val, expire)
+func Set(key, val string, expireMs time.Duration) error {
+	return adapter.Set(key, val, expireMs)
 }
 
 // Get val in cache
@@ -57,6 +59,14 @@ func Increase(key string) error {
 	return adapter.Increase(key)
 }
 
-func Expire(key string, dur time.Duration) error {
-	return adapter.Expire(key, dur)
+func Expire(key string, expireMs time.Duration) error {
+	return adapter.Expire(key, expireMs)
+}
+
+func SetStruct(key string, obj interface{}, expireMs time.Duration) error {
+	return adapter.SetStruct(key, obj, expireMs)
+}
+
+func GetStruct(key string, v interface{}) error {
+	return adapter.GetStruct(key, v)
 }

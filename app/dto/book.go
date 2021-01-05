@@ -10,3 +10,10 @@ type BookCreateDto struct {
 	AuthorName          string    `form:"author_name" json:"author_name"` // 作者名
 	BookDesc            string    `form:"book_desc" json:"book_desc"`                  // 书籍描述
 }
+
+type BookCategoryRespDto struct {
+	Id            int64		`json:"id"`
+	WorkDirection bool      `json:"work_direction"` // 作品方向，0：男频，1：女频'
+	Name          string    `json:"name"`           // 分类名
+	Sort          int8      `json:"sort"`            // 排序
+}
