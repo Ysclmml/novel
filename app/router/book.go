@@ -21,9 +21,9 @@ func LoadBook(router *gin.Engine)  {
 		bookRouter.GET("/listRank", bookController.ListRank)
 		bookRouter.POST("/addVisitCount/:id", bookController.AddVisitCount)
 		bookRouter.GET("/queryBookIndexAbout", bookController.QueryBookIndexAbout)
-		bookRouter.GET("/listCommentByPage", bookController.ListRecBookByCatId)
-		bookRouter.GET("/listRecBookByCatId", bookController.ListCommentByPage)
-		bookRouter.GET("/addBookComment", bookController.AddBookComment)
+		bookRouter.GET("/listCommentByPage", bookController.ListCommentByPage)
+		bookRouter.GET("/listRecBookByCatId", bookController.ListRecBookByCatId)
+		bookRouter.POST("/addBookComment", bookController.AddBookComment)
 		bookRouter.POST("/queryNewIndexList", bookController.QueryNewIndexList)
 		bookRouter.GET("/queryIndexList", bookController.QueryIndexList)
 	}

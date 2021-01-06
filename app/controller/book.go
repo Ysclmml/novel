@@ -118,16 +118,34 @@ func (book *BookController) QueryBookIndexAbout(c *gin.Context) {
 
 // 根据分类id查询同类推荐书籍
 func (book *BookController) ListRecBookByCatId(c *gin.Context) {
-
+	var d dto.ListRecBookDto
+	if book.BindAndValidate(c, &d) {
+		books := bookService.ListRecBookByCatId(d.BookId, d.CatId)
+		response.Success(c, consts.CurdStatusOkMsg, books)
+	}
 }
 
 // 分页查询书籍评论列表
 func (book *BookController) ListCommentByPage(c *gin.Context) {
-
+	var d dto.ListCommentDto
+	if book.BindAndValidate(c, &d) {
+		page, count := bookService.ListCommentByPage(0, d.BookId, d.Page, d.PageSize)
+		response.PageSuccess(c, page, count)
+	}
 }
 
 // 新增评价
 func (book *BookController) AddBookComment(c *gin.Context) {
+	// 这里需要检查用户登录状态, 最后可以使用中间件, 在中间件处就处理登录问题
+	var d dto.CommentCreateDto
+	if book.BindAndValidate(c, &d) {
+		userId := 1255379610071322624
+		if err := bookService.AddBookComment(d, int64(userId)); err != nil {
+			response.Fail(c, consts.CurdCreatFailCode, consts.CurdCreatFailMsg, err.Error())
+		} else {
+			response.Ok(c)
+		}
+	}
 
 }
 

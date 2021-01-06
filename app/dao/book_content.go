@@ -16,8 +16,9 @@ func getTableNameByIndexId(bookIndexId int64) string {
 // 这里涉及到分表操作
 func (bc BookContent) QueryBookContent(bookIndexId int64) *model.BookContent {
 	db := GetDb()
-	table := getTableNameByIndexId(bookIndexId)
 	book := model.BookContent{}
+	table := getTableNameByIndexId(bookIndexId)
 	db.Table(table).Where("index_id = ?", bookIndexId).First(&book)
+	db.Debug().Where("index_id = ?", bookIndexId).First(&book)
 	return &book
 }

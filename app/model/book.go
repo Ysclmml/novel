@@ -1,6 +1,8 @@
 package model
 
-import "novel/app/utils/time"
+import (
+	"novel/app/utils/time"
+)
 
 // Book 小说表
 type Book struct {
@@ -25,7 +27,7 @@ type Book struct {
 	IsVip               bool      `gorm:"column:is_vip;type:tinyint(1)" json:"is_vip"`                                                             // 是否收费，1：收费，0：免费
 	Status              bool      `gorm:"column:status;type:tinyint(1)" json:"status"`                                                             // 状态，0：入库，1：上架 	// 创建时间
 	CrawlSourceID       int       `gorm:"column:crawl_source_id;type:int(11)" json:"-"`                                              // 爬虫源站ID
-	CrawlBookID         string    `gorm:"column:crawl_book_id;type:varchar(32)" json:"-"`                                              // 抓取的源站小说ID
+	CrawlBookId         string    `gorm:"column:crawl_book_id;type:varchar(32)" json:"-"`                                              // 抓取的源站小说ID
 	CrawlLastTime       time.JsonTime `json:"-"`                                             // 最后一次的抓取时间
 	CrawlIsStop         bool      `gorm:"column:crawl_is_stop;type:tinyint(1)" json:"-"`                                               // 是否已停止更新，0：未停止，1：已停止
 }
@@ -44,7 +46,7 @@ type BookContent struct {
 // BookIndex 小说目录表
 type BookIndex struct {
 	BaseModel
-	BookID     int64     `gorm:"unique_index:key_uq_bookId_indexNum;index:key_bookId;column:book_id;type:bigint(20);not null" json:"book_id"`    // 小说ID
+	BookId     int64     `gorm:"unique_index:key_uq_bookId_indexNum;index:key_bookId;column:book_id;type:bigint(20);not null" json:"book_id"`    // 小说ID
 	IndexNum   int       `gorm:"unique_index:key_uq_bookId_indexNum;index:key_indexNum;column:index_num;type:int(11);not null" json:"index_num"` // 目录号
 	IndexName  string    `gorm:"column:index_name;type:varchar(100)" json:"index_name"`                                                          // 目录名
 	WordCount  int       `gorm:"column:word_count;type:int(11)" json:"word_count"`                                                               // 字数

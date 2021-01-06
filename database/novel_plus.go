@@ -33,7 +33,7 @@ type AuthorIncome struct {
 	ID             int64     `gorm:"primary_key;column:id;type:bigint(20);not null" json:"-"`                  // 主键
 	UserID         int64     `gorm:"column:user_id;type:bigint(20);not null" json:"user_id"`                   // 用户ID
 	AuthorID       int64     `gorm:"column:author_id;type:bigint(20);not null" json:"author_id"`               // 作家ID
-	BookID         int64     `gorm:"column:book_id;type:bigint(20);not null" json:"book_id"`                   // 作品ID
+	BookId         int64     `gorm:"column:book_id;type:bigint(20);not null" json:"book_id"`                   // 作品ID
 	IncomeMonth    time.Time `gorm:"column:income_month;type:date;not null" json:"income_month"`               // 收入月份
 	PreTaxIncome   int64     `gorm:"column:pre_tax_income;type:bigint(20);not null" json:"pre_tax_income"`     // 税前收入（分）
 	AfterTaxIncome int64     `gorm:"column:after_tax_income;type:bigint(20);not null" json:"after_tax_income"` // 税后收入（分）
@@ -48,7 +48,7 @@ type AuthorIncomeDetail struct {
 	ID            int64     `gorm:"primary_key;column:id;type:bigint(20);not null" json:"-"`           // 主键
 	UserID        int64     `gorm:"column:user_id;type:bigint(20);not null" json:"user_id"`            // 用户ID
 	AuthorID      int64     `gorm:"column:author_id;type:bigint(20);not null" json:"author_id"`        // 作家ID
-	BookID        int64     `gorm:"column:book_id;type:bigint(20);not null" json:"book_id"`            // 作品ID,0表示全部作品
+	BookId        int64     `gorm:"column:book_id;type:bigint(20);not null" json:"book_id"`            // 作品ID,0表示全部作品
 	IncomeDate    time.Time `gorm:"column:income_date;type:date;not null" json:"income_date"`          // 收入日期
 	IncomeAccount int       `gorm:"column:income_account;type:int(11);not null" json:"income_account"` // 订阅总额
 	IncomeCount   int       `gorm:"column:income_count;type:int(11);not null" json:"income_count"`     // 订阅次数
@@ -81,7 +81,7 @@ type Book struct {
 	UpdateTime          time.Time `gorm:"column:update_time;type:datetime;not null" json:"update_time"`                                            // 更新时间
 	CreateTime          time.Time `gorm:"index:key_createTime;column:create_time;type:datetime" json:"create_time"`                                // 创建时间
 	CrawlSourceID       int       `gorm:"column:crawl_source_id;type:int(11)" json:"crawl_source_id"`                                              // 爬虫源站ID
-	CrawlBookID         string    `gorm:"column:crawl_book_id;type:varchar(32)" json:"crawl_book_id"`                                              // 抓取的源站小说ID
+	CrawlBookId         string    `gorm:"column:crawl_book_id;type:varchar(32)" json:"crawl_book_id"`                                              // 抓取的源站小说ID
 	CrawlLastTime       time.Time `gorm:"column:crawl_last_time;type:datetime" json:"crawl_last_time"`                                             // 最后一次的抓取时间
 	CrawlIsStop         bool      `gorm:"column:crawl_is_stop;type:tinyint(1)" json:"crawl_is_stop"`                                               // 是否已停止更新，0：未停止，1：已停止
 }
@@ -117,7 +117,7 @@ type BookCategory struct {
 // BookComment 小说评论表
 type BookComment struct {
 	ID             int64     `gorm:"primary_key;column:id;type:bigint(20);not null" json:"-"`                                       // 主键
-	BookID         int64     `gorm:"unique_index:key_uq_bookid_userid;column:book_id;type:bigint(20)" json:"book_id"`               // 小说ID
+	BookId         int64     `gorm:"unique_index:key_uq_bookid_userid;column:book_id;type:bigint(20)" json:"book_id"`               // 小说ID
 	CommentContent string    `gorm:"column:comment_content;type:varchar(512)" json:"comment_content"`                               // 评价内容
 	ReplyCount     int       `gorm:"column:reply_count;type:int(11)" json:"reply_count"`                                            // 回复数量
 	AuditStatus    bool      `gorm:"column:audit_status;type:tinyint(1)" json:"audit_status"`                                       // 审核状态，0：待审核，1：审核通过，2：审核不通过
@@ -215,7 +215,7 @@ type BookContent9 struct {
 // BookIndex 小说目录表
 type BookIndex struct {
 	ID         int64     `gorm:"primary_key;column:id;type:bigint(20);not null" json:"-"`                                                        // 主键
-	BookID     int64     `gorm:"unique_index:key_uq_bookId_indexNum;index:key_bookId;column:book_id;type:bigint(20);not null" json:"book_id"`    // 小说ID
+	BookId     int64     `gorm:"unique_index:key_uq_bookId_indexNum;index:key_bookId;column:book_id;type:bigint(20);not null" json:"book_id"`    // 小说ID
 	IndexNum   int       `gorm:"unique_index:key_uq_bookId_indexNum;index:key_indexNum;column:index_num;type:int(11);not null" json:"index_num"` // 目录号
 	IndexName  string    `gorm:"column:index_name;type:varchar(100)" json:"index_name"`                                                          // 目录名
 	WordCount  int       `gorm:"column:word_count;type:int(11)" json:"word_count"`                                                               // 字数
@@ -236,7 +236,7 @@ type BookScreenBullet struct {
 // BookSetting 首页小说设置表
 type BookSetting struct {
 	ID           int64     `gorm:"primary_key;column:id;type:bigint(20);not null" json:"-"`
-	BookID       int64     `gorm:"column:book_id;type:bigint(20)" json:"book_id"`               // 小说ID
+	BookId       int64     `gorm:"column:book_id;type:bigint(20)" json:"book_id"`               // 小说ID
 	Sort         int8      `gorm:"column:sort;type:tinyint(4)" json:"sort"`                     // 排序号
 	Type         bool      `gorm:"column:type;type:tinyint(1)" json:"type"`                     // 类型，0：轮播图，1：顶部小说栏设置，2：本周强推，3：热门推荐，4：精品推荐
 	CreateTime   time.Time `gorm:"column:create_time;type:datetime" json:"create_time"`         // 创建时间
@@ -261,7 +261,7 @@ type CrawlSingleTask struct {
 	ID           int64     `gorm:"primary_key;column:id;type:bigint(20);not null" json:"-"`       // 主键
 	SourceID     int       `gorm:"column:source_id;type:int(11)" json:"source_id"`                // 爬虫源ID
 	SourceName   string    `gorm:"column:source_name;type:varchar(50)" json:"source_name"`        // 爬虫源名
-	SourceBookID string    `gorm:"column:source_book_id;type:varchar(255)" json:"source_book_id"` // 源站小说ID
+	SourceBookId string    `gorm:"column:source_book_id;type:varchar(255)" json:"source_book_id"` // 源站小说ID
 	CatID        int       `gorm:"column:cat_id;type:int(11)" json:"cat_id"`                      // 分类ID
 	BookName     string    `gorm:"column:book_name;type:varchar(50)" json:"book_name"`            // 爬取的小说名
 	AuthorName   string    `gorm:"column:author_name;type:varchar(50)" json:"author_name"`        // 爬取的小说作者名
@@ -539,7 +539,7 @@ type User struct {
 type UserBookshelf struct {
 	ID           int64     `gorm:"primary_key;column:id;type:bigint(20);not null" json:"-"`                                  // 主键
 	UserID       int64     `gorm:"unique_index:key_uq_userid_bookid;column:user_id;type:bigint(20);not null" json:"user_id"` // 用户ID
-	BookID       int64     `gorm:"unique_index:key_uq_userid_bookid;column:book_id;type:bigint(20);not null" json:"book_id"` // 小说ID
+	BookId       int64     `gorm:"unique_index:key_uq_userid_bookid;column:book_id;type:bigint(20);not null" json:"book_id"` // 小说ID
 	PreContentID int64     `gorm:"column:pre_content_id;type:bigint(20)" json:"pre_content_id"`                              // 上一次阅读的章节内容表ID
 	CreateTime   time.Time `gorm:"column:create_time;type:datetime" json:"create_time"`
 	UpdateTime   time.Time `gorm:"column:update_time;type:datetime" json:"update_time"`
@@ -549,7 +549,7 @@ type UserBookshelf struct {
 type UserBuyRecord struct {
 	ID            int64     `gorm:"primary_key;column:id;type:bigint(20);not null" json:"-"`                                   // 主键
 	UserID        int64     `gorm:"unique_index:key_userId_indexId;column:user_id;type:bigint(20);not null" json:"user_id"`    // 用户ID
-	BookID        int64     `gorm:"column:book_id;type:bigint(20)" json:"book_id"`                                             // 购买的小说ID
+	BookId        int64     `gorm:"column:book_id;type:bigint(20)" json:"book_id"`                                             // 购买的小说ID
 	BookName      string    `gorm:"column:book_name;type:varchar(50)" json:"book_name"`                                        // 购买的小说名
 	BookIndexID   int64     `gorm:"unique_index:key_userId_indexId;column:book_index_id;type:bigint(20)" json:"book_index_id"` // 购买的章节ID
 	BookIndexName string    `gorm:"column:book_index_name;type:varchar(100)" json:"book_index_name"`                           // 购买的章节名
@@ -569,7 +569,7 @@ type UserFeedback struct {
 type UserReadHistory struct {
 	ID           int64     `gorm:"primary_key;column:id;type:bigint(20);not null" json:"-"`                                  // 主键
 	UserID       int64     `gorm:"unique_index:key_uq_userid_bookid;column:user_id;type:bigint(20);not null" json:"user_id"` // 用户ID
-	BookID       int64     `gorm:"unique_index:key_uq_userid_bookid;column:book_id;type:bigint(20);not null" json:"book_id"` // 小说ID
+	BookId       int64     `gorm:"unique_index:key_uq_userid_bookid;column:book_id;type:bigint(20);not null" json:"book_id"` // 小说ID
 	PreContentID int64     `gorm:"column:pre_content_id;type:bigint(20)" json:"pre_content_id"`                              // 上一次阅读的章节内容表ID
 	CreateTime   time.Time `gorm:"column:create_time;type:datetime" json:"create_time"`
 	UpdateTime   time.Time `gorm:"column:update_time;type:datetime" json:"update_time"`

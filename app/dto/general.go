@@ -12,6 +12,12 @@ type GeneralListDto struct {
 	Q     string `form:"q" json:"q"`
 }
 
+// 分页dto
+type PageDto struct {
+	Page  int    `form:"page,default=0" json:"page"`
+	PageSize int    `form:"page_size,default=10" json:"page_size" binding:"max=20"`
+}
+
 type GeneralTreeDto struct {
 	Q string `form:"q" json:"q"`
 }
