@@ -13,6 +13,8 @@ import (
 )
 
 var bookDao = dao.Book{}
+var bookIndexDao = dao.BookIndex{}
+var bookContentDao = dao.BookContent{}
 
 type BookService struct {
 }
@@ -59,6 +61,10 @@ func (BookService) ListClickRank() []model.Book {
 	return books
 }
 
+func (BookService) ListRank(rankType int8, limit int) []model.Book {
+	return bookDao.ListRank(rankType, limit)
+}
+
 func (BookService) ListNewRank() []model.Book {
 	var books []model.Book
 	_ = cache.GetStruct(cache_key.IndexNewBookKey, &books)
@@ -84,3 +90,35 @@ func (BookService) ListBookCategory() []dto.BookCategoryRespDto {
 	return bookDao.ListBookCategory()
 }
 
+func (BookService) AddVisitCount(bookId int64, visitCount int) {
+	bookDao.AddVisitCount(bookId, visitCount)
+}
+
+func (BookService) QueryIndexCount(bookId int64) int64 {
+	return bookIndexDao.QueryIndexCount(bookId)
+}
+
+func (BookService) QueryBookContent(bookIndexId int64) (*model.BookContent, error) {
+	bookContent := bookContentDao.QueryBookContent(bookIndexId)
+	if bookContent.ID <= 0 {
+		return nil, errors.New("章节不存在")
+	}
+	return bookContent, nil
+}
+
+func (bs BookService) QueryBookIndexAbout(bookId int64, bookIndexId int64, isCut bool) (*dto.BookIndexAboutRespDto, error) {
+	bookContent, err := bs.QueryBookContent(bookIndexId)
+	if err != nil {
+		return nil, err
+	}
+	count := bookIndexDao.QueryIndexCount(bookId)
+	content := bookContent.Content
+	cutLen := 120 // 裁剪的长度
+	if len(content) > cutLen {
+		content = content[0:cutLen]
+	}
+	return &dto.BookIndexAboutRespDto{
+		BookIndexCount: count,
+		BookContent:    content,
+	}, nil
+}

@@ -56,7 +56,7 @@ func (book Book) ListRank(cond int8, limit int) []model.Book {
 		// 访问量排序
 		db = db.Order("visit_count desc")
 	}
-	db = db.Limit(10).Find(&books)
+	db = db.Limit(limit).Find(&books)
 	return books
 }
 
@@ -65,4 +65,12 @@ func (book Book) ListBookCategory() []dto.BookCategoryRespDto {
 	var cateList []dto.BookCategoryRespDto
 	db.Debug().Table("book_category").Select("id", "work_direction", "name", "sort").Find(&cateList)
 	return cateList
+}
+
+func (book Book) AddVisitCount(id int64, count int) (rowAffected int64) {
+	db := GetDb()
+	// 使用sql表达式更新: https://gorm.io/zh_CN/docs/update.html#%E4%BD%BF%E7%94%A8-SQL-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%9B%B4%E6%96%B0
+	return db.Table("book").
+		Where("id = ?", id).
+		Update("visit_count", gorm.Expr("visit_count + ?", count)).RowsAffected
 }

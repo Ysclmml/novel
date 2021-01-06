@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 	"novel/app/dto"
 	"novel/app/global/consts"
 	"novel/app/service"
@@ -23,19 +24,6 @@ func (book *BookController) Create(c *gin.Context) {
 		if err != nil {
 			// 创建失败
 			response.Fail(c, consts.CurdCreatFailCode, consts.CurdCreatFailMsg, err.Error())
-		} else {
-			response.Success(c, "ok", bookModel)
-		}
-	}
-}
-
-func (book *BookController) Get(c *gin.Context) {
-	var getDto dto.GeneralGetDto
-	if book.BindAndValidate(c, &getDto) {
-		bookModel, err := bookService.Get(getDto.Id)
-		if err != nil {
-			// 创建失败
-			response.Fail(c, consts.CurdCreatFailCode, consts.CurdSelectFailMsg, err.Error())
 		} else {
 			response.Success(c, "ok", bookModel)
 		}
@@ -79,22 +67,53 @@ func (book *BookController) SearchByPage(c *gin.Context) {
 
 // 查询小说详情信息
 func (book *BookController) QueryBookDetail(c *gin.Context) {
-
+	var getDto dto.GeneralGetDto
+	if book.BindAndValidate(c, &getDto) {
+		bookModel, err := bookService.Get(getDto.Id)
+		if err != nil {
+			// 创建失败
+			response.Fail(c, consts.CurdCreatFailCode, consts.CurdSelectFailMsg, err.Error())
+		} else {
+			response.Success(c, "ok", bookModel)
+		}
+	}
 }
 
 // 查询小说排行信息
 func (book *BookController) ListRank(c *gin.Context) {
-
+	var rankDto dto.BookRankDto
+	if book.BindAndValidate(c, &rankDto) {
+		fmt.Println(rankDto)
+		books := bookService.ListRank(rankDto.Type, rankDto.Limit)
+		response.Success(c, consts.CurdStatusOkMsg, books)
+	}
 }
 
 // 增加点击次数
 func (book *BookController) AddVisitCount(c *gin.Context) {
-
+	// todo: 使用rabbitmq来进行削峰, 点击量不是很重要, 数据可以不是那么精确
+	var getDto dto.GeneralGetDto
+	if book.BindAndValidate(c, &getDto) {
+		if viper.GetBool("rabbitmq.enable") {
+			// 使用消息队列来进行增加点击量
+		} else {
+			bookService.AddVisitCount(getDto.Id, 1)
+		}
+	}
+	response.Ok(c)
 }
 
 // 查询章节相关信息
 func (book *BookController) QueryBookIndexAbout(c *gin.Context) {
-
+	// go分表没有找到好的插件, 只能先进行手动的代码分表, 以后再考虑代码解耦
+	aboutDto := dto.BookIndexAboutDto{}
+	if book.BindAndValidate(c, &aboutDto) {
+		if indexAbout, err := bookService.QueryBookIndexAbout(aboutDto.BookId, aboutDto.BookIndexId, true); err != nil{
+			response.Fail(c, consts.CurdSelectFailCode, consts.CurdSelectFailMsg, err.Error())
+		} else {
+			response.Success(c, consts.CurdStatusOkMsg, indexAbout)
+		}
+	}
 }
 
 // 根据分类id查询同类推荐书籍

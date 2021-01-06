@@ -17,3 +17,20 @@ type BookCategoryRespDto struct {
 	Name          string    `json:"name"`           // 分类名
 	Sort          int8      `json:"sort"`            // 排序
 }
+
+type BookRankDto struct {
+	// todo: 这里不知道为什么使用validate无效, 而使用binding才有用, 我的应该是v10版本... 而在单元测试里面用validate又有效, 迷惑..
+	Type            int8	`form:"type,default=0" binding:"min=0,max=3"`
+	Limit           int		`form:"limit,default=30" binding:"min=2,max=50"`
+}
+
+type BookIndexAboutDto struct {
+	BookId      int64 `form:"book_id"`
+	BookIndexId int64 `form:"book_index_id"`
+}
+
+// 章节最新相关信息
+type BookIndexAboutRespDto struct {
+	BookIndexCount        int64		`json:"book_index_count"` // 书的当前总的章节数
+	BookContent           string	`json:"book_content"` // 章节内容
+}

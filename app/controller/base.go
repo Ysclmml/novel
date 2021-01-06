@@ -11,7 +11,7 @@ type BaseController struct {
 
 func (bc *BaseController) BindAndValidate(c *gin.Context, obj interface{}) bool {
 	if err := dto.Bind(c, obj); err != nil {
-		//failValidate(c, err.Error())
+		// failValidate(c, err.Error())
 		response.ErrorParam(c, err.Error())
 		return false
 	}

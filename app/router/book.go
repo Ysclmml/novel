@@ -10,7 +10,6 @@ func LoadBook(router *gin.Engine)  {
 	bookRouter := router.Group("/book")
 	{
 		bookRouter.POST("/create", bookController.Create)
-		bookRouter.GET("/get/:id", bookController.Get)
 		bookRouter.GET("/getList", bookController.List)
 		bookRouter.GET("/listBookSetting", bookController.ListBookSetting)
 		bookRouter.GET("/listClickRank", bookController.ListClickRank)
@@ -20,7 +19,7 @@ func LoadBook(router *gin.Engine)  {
 		bookRouter.GET("/searchByPage", bookController.SearchByPage)
 		bookRouter.GET("queryBookDetail/:id", bookController.QueryBookDetail)
 		bookRouter.GET("/listRank", bookController.ListRank)
-		bookRouter.POST("/addVisitCount", bookController.AddVisitCount)
+		bookRouter.POST("/addVisitCount/:id", bookController.AddVisitCount)
 		bookRouter.GET("/queryBookIndexAbout", bookController.QueryBookIndexAbout)
 		bookRouter.GET("/listCommentByPage", bookController.ListRecBookByCatId)
 		bookRouter.GET("/listRecBookByCatId", bookController.ListCommentByPage)

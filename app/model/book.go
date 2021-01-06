@@ -33,3 +33,25 @@ type Book struct {
 func (book *Book) TableName() string {
 	return "book"
 }
+
+// BookContent 小说内容表, 这章会进行分表
+type BookContent struct {
+	ID      int64  `gorm:"primary_key;column:id;type:bigint(20);not null" json:"id"` // 主键
+	IndexID int64  `gorm:"unique;column:index_id;type:bigint(20)" json:"index_id"`  // 目录章节ID
+	Content string `gorm:"column:content;type:mediumtext" json:"content"`           // 小说章节内容
+}
+
+// BookIndex 小说目录表
+type BookIndex struct {
+	BaseModel
+	BookID     int64     `gorm:"unique_index:key_uq_bookId_indexNum;index:key_bookId;column:book_id;type:bigint(20);not null" json:"book_id"`    // 小说ID
+	IndexNum   int       `gorm:"unique_index:key_uq_bookId_indexNum;index:key_indexNum;column:index_num;type:int(11);not null" json:"index_num"` // 目录号
+	IndexName  string    `gorm:"column:index_name;type:varchar(100)" json:"index_name"`                                                          // 目录名
+	WordCount  int       `gorm:"column:word_count;type:int(11)" json:"word_count"`                                                               // 字数
+	IsVip      int8      `gorm:"column:is_vip;type:tinyint(4)" json:"is_vip"`                                                                    // 是否收费，1：收费，0：免费
+	BookPrice  int       `gorm:"column:book_price;type:int(3)" json:"book_price"`                                                                // 章节费用（屋币）
+}
+
+func (book *BookIndex) TableName() string {
+	return "book_index"
+}

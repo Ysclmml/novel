@@ -9,16 +9,6 @@ import (
 	"strings"
 )
 
-func init() {
-	// Register custom validate methods
-	//if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
-	//	_ = v.RegisterValidation("pwdValidate", pwdValidate)
-	//	_ = v.RegisterValidation("permsValidate", permsValidate)
-	//} else {
-	//	log.Fatal("Gin fail to registered custom validator(v10)")
-	//}
-}
-
 // Bind : bind request dto and auto verify parameters
 func Bind(c *gin.Context, obj interface{}) error {
 	_ = c.ShouldBindUri(obj)
@@ -37,6 +27,7 @@ func Bind(c *gin.Context, obj interface{}) error {
 			return errors.New(jsonErr.Field + "类型错误")
 		} else {
 			// 其他错误
+			fmt.Println("err", err)
 		}
 	}
 	return nil
