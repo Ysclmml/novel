@@ -1,7 +1,9 @@
 package dao
 
 import (
+	"fmt"
 	"gorm.io/gorm"
+	"novel/app/dto"
 	"novel/app/model"
 )
 
@@ -22,4 +24,15 @@ func (bi BookIndex) QueryIndexCount(bookId int64) int64 {
 	var total int64
 	db.Model(&model.BookIndex{}).Where("book_id = ?", bookId).Count(&total)
 	return total
+}
+
+// 获取首页的书籍设置列表
+func (bi BookIndex) GetIndexSettings() []dto.BookSettingDto {
+	db := bi.GetDb()
+	var indexSettings []dto.BookSettingDto
+	db = db.Debug().Table("book_setting t1").
+		Select("t1.book_id", "t1.type", "t1.sort", "t2.book_name", "t2.author_name", "t2.pic_url", "t2.book_desc", "t2.cat_name", "t2.book_status", "t2.score", "t2.cat_id").
+		Joins("inner join book t2 on t1.book_id = t2.id").
+		Find(&indexSettings)
+	return indexSettings
 }

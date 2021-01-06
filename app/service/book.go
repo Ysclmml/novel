@@ -9,6 +9,7 @@ import (
 	"novel/app/cache/cache_key"
 	"novel/app/dao"
 	"novel/app/dto"
+	"novel/app/global/consts"
 	"novel/app/log"
 	"novel/app/model"
 )
@@ -176,4 +177,85 @@ func (bs *BookService) AddBookComment(ccDto dto.CommentCreateDto, userId int64) 
 	}
 	tx.Commit()
 	return nil
+}
+
+// 根据书籍id获取书籍列表
+func (bs *BookService) QueryIndexList(bookId int64, orderBy string, page int, pageSize int) ([]dto.IndexListRespDto, int64) {
+	// 这里根据orderBy的属性来选取排序条件
+	var order string
+	switch orderBy {
+	case "-index_num":
+		order = "-index_num"
+	default:
+		order = "index_num"
+	}
+	return bookDao.QueryIndexList(bookId, order, page, pageSize)
+}
+
+// 获取首页配置
+func (bs *BookService) ListBookSetting() map[int8][]dto.BookSettingDto {
+	settings := bookIndexDao.GetIndexSettings()
+	if len(settings) == 0 {
+		settings = bs.initIndexSettings()
+	}
+	// 将数组分类, 组成map格式
+	settingsToMap := bs.listSettingsToMap(settings)
+	return settingsToMap
+}
+
+func (bs *BookService) initIndexSettings() []dto.BookSettingDto {
+	books := bookDao.GetBooksByScoreRandom(consts.IndexBookSettingNum)
+	var settingsDto []dto.BookSettingDto
+	var settingsModel []model.BookSetting
+	length := len(books)
+	var _sort int8
+	for i := 0; i < length; i++ {
+		var _type int8
+		if i < 4 {
+			_type = 0
+			_sort = int8(i + 1)
+		} else if i < 14 {
+			_type = 1
+			_sort = int8(i + 1 - 4)
+		} else if i < 20 {
+			_type = 2
+			_sort = int8(i + 1 - 14)
+		} else if i < 26 {
+			_type = 3
+			_sort = int8(i + 1 - 20)
+		} else {
+			_type = 4
+			_sort = int8(i + 1 - 26)
+		}
+		var settingDto = dto.BookSettingDto{}
+		var settingModel = model.BookSetting{
+			BookId: books[i].Id,
+			Sort:   _sort,
+			Type:   _type,
+		}
+		copier.Copy(&settingDto, &books[i])
+		settingDto.BookId = settingModel.BookId
+		settingDto.Sort = settingModel.Sort
+		settingDto.Type = settingModel.Type
+
+		settingsDto = append(settingsDto, settingDto)
+		settingsModel = append(settingsModel, settingModel)
+	}
+	// 保存首页设置
+	_ = bookDao.InsertManySettings(&settingsModel)
+	return settingsDto
+}
+
+func (bs *BookService) listSettingsToMap(settings []dto.BookSettingDto) map[int8][]dto.BookSettingDto {
+	var settingsMap = make(map[int8][]dto.BookSettingDto)
+	for _, setting := range settings {
+		type_ := setting.Type
+		if v, ok := settingsMap[type_]; ok {
+			v = append(v, setting)
+			settingsMap[type_] = v
+		} else {
+			settingsMap[type_] = []dto.BookSettingDto{setting}
+		}
+	}
+	return settingsMap
 }

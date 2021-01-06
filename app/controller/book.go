@@ -8,6 +8,7 @@ import (
 	"novel/app/global/consts"
 	"novel/app/service"
 	"novel/app/utils/response"
+	"strconv"
 )
 
 var bookService = service.BookService{}
@@ -151,15 +152,29 @@ func (book *BookController) AddBookComment(c *gin.Context) {
 
 // 根据小说ID查询小说前十条最新更新目录集合
 func (book *BookController) QueryNewIndexList(c *gin.Context) {
-
+	bookId, err := strconv.ParseInt(c.Query("book_id"), 10, 64)
+	if err != nil {
+		response.ErrorParam(c, "必须传入书籍正确的书籍id")
+		return
+	}
+	indexes, count := bookService.QueryIndexList(bookId, "-index_num", 0, 10)
+	response.PageSuccess(c, indexes, count)
 }
 
 // 目录页
 func (book *BookController) QueryIndexList(c *gin.Context) {
-
+	var d dto.ListIndexDto
+	if book.BindAndValidate(c, &d) {
+		indexes, count := bookService.QueryIndexList(d.BookId, d.Order, d.Page, d.PageSize)
+		response.PageSuccess(c, indexes, count)
+	}
 }
 
 // 查询首页小说设置列表数据
+// 首页设置分为5部分, 分别是左侧的轮播图第一部分, 第二部分轮播图右侧的文字版书籍推荐,
+// 第三部分本周强推部分, 第四部分  热门推荐部分, 第五部分 精品推荐
+// 所谓思路就是随机选取一些书籍, 然后放到上面
 func (book *BookController) ListBookSetting(c *gin.Context) {
-
+	bookSettings := bookService.ListBookSetting()
+	response.Success(c, consts.CurdStatusOkMsg, bookSettings)
 }

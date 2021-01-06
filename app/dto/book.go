@@ -1,6 +1,9 @@
 package dto
 
-import "novel/app/model"
+import (
+	"novel/app/model"
+	"novel/app/utils/time"
+)
 
 type BookCreateDto struct {
 	WorkDirection bool   `form:"work_direction" json:"work_direction"`          // 作品方向，0：男频，1：女频'
@@ -64,4 +67,33 @@ type ListCommentRespDto struct {
 type CommentCreateDto struct {
 	BookId         int64  `form:"book_id" binding:"required" json:"book_id"`
 	CommentContent string `form:"comment_content" binding:"required" json:"comment_content"`
+}
+
+type IndexListRespDto struct {
+	ID         int64         `json:"id"`
+	UpdateTime time.JsonTime `json:"update_time"`
+	IndexNum   int           `json:"index_num"` // 目录号
+	IndexName  string        `json:"index_name"`
+	IsVip      int8          `json:"is_vip"`
+}
+
+type ListIndexDto struct {
+	PageDto
+	BookId int64  `form:"book_id" binding:"required"`
+	Order  string `form:"order,default=index_num"`
+}
+
+type BookSettingDto struct {
+	BookId     int64   `json:"book_id"` // 小说ID
+	Sort       int8    `json:"sort"`    // 排序号
+	Type       int8    `json:"type"`
+	CatID      int     `json:"cat_id"`      // 分类ID
+	CatName    string  `json:"cat_name"`    // 分类名
+	PicURL     string  `json:"pic_url"`     // 小说封面
+	BookName   string  `json:"book_name"`   // 小说名
+	AuthorID   int64   `json:"author_id"`   // 作者id
+	AuthorName string  `json:"author_name"` // 作者名
+	BookDesc   string  `json:"book_desc"`   // 书籍描述
+	Score      float32 `json:"score"`       // 评分，预留字段
+	BookStatus bool    `json:"book_status"` // 书籍状态，0：连载中，1：已完结
 }

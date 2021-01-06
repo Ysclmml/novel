@@ -134,3 +134,35 @@ func (book *Book) AddCommentCount(bookId int64) error {
 		Where("id", bookId).
 		Update("comment_count", gorm.Expr("comment_count + 1")).Error
 }
+
+func (book *Book) QueryIndexList(bookId int64, orderBy string, page int, pageSize int) ([]dto.IndexListRespDto, int64) {
+	db := book.GetDb()
+	var indexes []dto.IndexListRespDto
+	var total int64
+	if orderBy != "" {
+		db = db.Order(orderBy)
+	}
+	db.Debug().
+		Table("book_index").
+		Where("book_id = ?", bookId).
+		Offset(page * pageSize).
+		Limit(pageSize).
+		Find(&indexes).
+		Count(&total)
+
+	return indexes, total
+}
+
+// 根据书籍的分数随机返回列表
+func (book *Book) GetBooksByScoreRandom(limit int) []model.Book {
+	sql := `select id,book_name,author_name,pic_url,book_desc,score,cat_name,cat_id,book_status from book ORDER BY score,RAND() LIMIT ?`
+	db := book.GetDb()
+	var books []model.Book
+	db.Raw(sql, limit).Find(&books)
+	return books
+}
+
+func (book *Book) InsertManySettings(bookSettings *[]model.BookSetting) error {
+	db := book.GetDb()
+	return db.CreateInBatches(bookSettings, len(*bookSettings)).Error
+}
