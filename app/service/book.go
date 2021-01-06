@@ -11,7 +11,6 @@ import (
 	"novel/app/dto"
 	"novel/app/log"
 	"novel/app/model"
-	"time"
 )
 
 var bookDao = dao.Book{}
@@ -161,17 +160,19 @@ func (bs *BookService) AddBookComment(ccDto dto.CommentCreateDto, userId int64) 
 	copier.Copy(&modelComment, &ccDto)
 	modelComment.CreateUserID = userId
 
-	// 开启事务
+	// 开启事务, gorm没有函数式的事务开启方式, 只能使用这种取巧的方式了.
 	tx = dao.GetDb().Begin()
 	bookDao := dao.Book{DB: tx}
 	if err = bookDao.AddBookComment(modelComment); err != nil {
-		return errors.New("添加评价失败1" + err.Error())
+		return errors.New("添加评价失败")
 	}
+	// 下面测试事务问题
+	// time.Sleep(time.Second * 15)
+	// return errors.New("测试事务的错误....")
+
 	// 增加书籍评论数量
-	time.Sleep(time.Second * 15)
-	return errors.New("测试事务的错误....")
 	if err = bookDao.AddCommentCount(ccDto.BookId); err != nil {
-		return errors.New("添加评价失败2" + err.Error())
+		return errors.New("添加评价失败2")
 	}
 	tx.Commit()
 	return nil
