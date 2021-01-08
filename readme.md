@@ -25,3 +25,11 @@ https://github.com/201206030/novel-plus
 + 全局统一校验 (参数错误信息未国际化处理, 是英文的错误信息)
   + 自定义时间格式化信息
 
+
+
+**搭建记录:**
+
+go-playground使用起来并没有那么方便. 自定义错误消息太麻烦了, 尝试使用新的校验器做替代.
+
+https://gitee.com/inhere/validate
+

@@ -40,7 +40,7 @@ func (*BookService) Create(dto dto.BookCreateDto) (*model.Book, error) {
 	return &bookModel, nil
 }
 
-func (*BookService) Get(id int64) (*model.Book, error) {
+func (*BookService) GetBookDetail(id int64) (*model.Book, error) {
 	book := bookDao.GetByBookId(id)
 	if book.Id <= 0 {
 		return nil, errors.New("不存在当前书籍")
@@ -179,7 +179,7 @@ func (bs *BookService) AddBookComment(ccDto dto.CommentCreateDto, userId int64) 
 	return nil
 }
 
-// 根据书籍id获取书籍列表
+// 根据书籍id获取目录列表
 func (bs *BookService) QueryIndexList(bookId int64, orderBy string, page int, pageSize int) ([]dto.IndexListRespDto, int64) {
 	// 这里根据orderBy的属性来选取排序条件
 	var order string
@@ -258,4 +258,20 @@ func (bs *BookService) listSettingsToMap(settings []dto.BookSettingDto) map[int8
 		}
 	}
 	return settingsMap
+}
+
+func (bs *BookService) QueryPreBookIndexId(bookId int64, indexId int64) int64 {
+	return bookDao.QueryNearBookIndexId(bookId, indexId, false)
+}
+
+func (bs *BookService) QueryNextBookIndexId(bookId int64, indexId int64) int64 {
+	return bookDao.QueryNearBookIndexId(bookId, indexId, true)
+}
+
+func (bs *BookService) GetIndexDetail(indexId int64) (*model.BookIndex, error) {
+	index := bookIndexDao.GetIndexDetail(indexId)
+	if index.Id <= 0 {
+		return nil, errors.New("不存在当前章节")
+	}
+	return &index, nil
 }

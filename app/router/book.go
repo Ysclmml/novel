@@ -26,5 +26,6 @@ func LoadBook(router *gin.Engine)  {
 		bookRouter.POST("/addBookComment", bookController.AddBookComment)
 		bookRouter.GET("/queryNewIndexList", bookController.QueryNewIndexList)
 		bookRouter.GET("/queryIndexList", bookController.QueryIndexList)
+		bookRouter.GET("/content/:book_id/:book_index_id", bookController.GetPageContent)
 	}
 }

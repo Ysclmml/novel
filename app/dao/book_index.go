@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"fmt"
 	"gorm.io/gorm"
 	"novel/app/dto"
 	"novel/app/model"
@@ -35,4 +34,11 @@ func (bi BookIndex) GetIndexSettings() []dto.BookSettingDto {
 		Joins("inner join book t2 on t1.book_id = t2.id").
 		Find(&indexSettings)
 	return indexSettings
+}
+
+func (bi *BookIndex) GetIndexDetail(bookIndex int64) model.BookIndex {
+	db := bi.GetDb()
+	index := model.BookIndex{}
+	db.Where("id = ?", bookIndex).Find(&index)
+	return index
 }

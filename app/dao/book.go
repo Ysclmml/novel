@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"fmt"
 	"gorm.io/gorm"
 	"novel/app/dto"
 	"novel/app/model"
@@ -142,11 +143,12 @@ func (book *Book) QueryIndexList(bookId int64, orderBy string, page int, pageSiz
 	if orderBy != "" {
 		db = db.Order(orderBy)
 	}
+	if page > 0 && pageSize > 0 {
+		db = db.Offset((page - 1) * pageSize).Limit(pageSize)
+	}
 	db.Debug().
 		Table("book_index").
 		Where("book_id = ?", bookId).
-		Offset(page * pageSize).
-		Limit(pageSize).
 		Find(&indexes).
 		Count(&total)
 
@@ -165,4 +167,24 @@ func (book *Book) GetBooksByScoreRandom(limit int) []model.Book {
 func (book *Book) InsertManySettings(bookSettings *[]model.BookSetting) error {
 	db := book.GetDb()
 	return db.CreateInBatches(bookSettings, len(*bookSettings)).Error
+}
+
+// false: pre, true: next
+func (book *Book) QueryNearBookIndexId(bookId int64, indexId int64, preOrNext bool) int64 {
+	db := book.GetDb()
+	idMap := make(map[string]interface{})
+	db = db.Debug().Model(&model.BookIndex{}).
+		Select("id").
+		Where("book_id = ?", bookId)
+	if preOrNext {
+		db = db.Where("id > ?", indexId).Order("id")
+	} else {
+		db = db.Where("id < ?", indexId).Order("id desc")
+	}
+	db = db.Take(&idMap)
+	fmt.Println(idMap, db.Error)
+	if id, ok := idMap["id"]; ok {
+		return id.(int64)
+	}
+	return 0
 }

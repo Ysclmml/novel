@@ -78,7 +78,8 @@ type IndexListRespDto struct {
 }
 
 type ListIndexDto struct {
-	PageDto
+	Page     int `form:"page" json:"page"`
+	PageSize int `form:"page_size" json:"page_size"`
 	BookId int64  `form:"book_id" binding:"required"`
 	Order  string `form:"order,default=index_num"`
 }
@@ -96,4 +97,10 @@ type BookSettingDto struct {
 	BookDesc   string  `json:"book_desc"`   // 书籍描述
 	Score      float32 `json:"score"`       // 评分，预留字段
 	BookStatus bool    `json:"book_status"` // 书籍状态，0：连载中，1：已完结
+}
+
+// 书籍内容需要的数据
+type BookContentDto struct {
+	BookId int64 `uri:"book_id"`
+	IndexId int64 `uri:"book_index_id"`
 }

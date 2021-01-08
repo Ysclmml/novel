@@ -70,7 +70,7 @@ func (book *BookController) SearchByPage(c *gin.Context) {
 func (book *BookController) QueryBookDetail(c *gin.Context) {
 	var getDto dto.GeneralGetDto
 	if book.BindAndValidate(c, &getDto) {
-		bookModel, err := bookService.Get(getDto.Id)
+		bookModel, err := bookService.GetBookDetail(getDto.Id)
 		if err != nil {
 			// 创建失败
 			response.Fail(c, consts.CurdCreatFailCode, consts.CurdSelectFailMsg, err.Error())
@@ -157,7 +157,7 @@ func (book *BookController) QueryNewIndexList(c *gin.Context) {
 		response.ErrorParam(c, "必须传入书籍正确的书籍id")
 		return
 	}
-	indexes, count := bookService.QueryIndexList(bookId, "-index_num", 0, 10)
+	indexes, count := bookService.QueryIndexList(bookId, "-index_num", 1, 10)
 	response.PageSuccess(c, indexes, count)
 }
 
@@ -177,4 +177,44 @@ func (book *BookController) QueryIndexList(c *gin.Context) {
 func (book *BookController) ListBookSetting(c *gin.Context) {
 	bookSettings := bookService.ListBookSetting()
 	response.Success(c, consts.CurdStatusOkMsg, bookSettings)
+}
+
+// 获取书籍某章的内容
+func (book *BookController) GetPageContent(c *gin.Context) {
+	var d dto.BookContentDto
+	if book.BindAndValidate(c, &d) {
+		// 查询内容
+		fmt.Println(d)
+		bookContent, err := bookService.QueryBookContent(d.IndexId)
+		if err != nil {
+			response.Fail(c, consts.CurdSelectFailCode, consts.CurdSelectFailMsg, err.Error())
+			return
+		}
+		// 获取上章目录id
+		preBookIndexId := bookService.QueryPreBookIndexId(d.BookId, d.IndexId)
+		// 获取下章目录id
+		nextBookIndexId := bookService.QueryNextBookIndexId(d.BookId, d.IndexId)
+		// 查询是否收费, todo: 添加用户相关的逻辑
+
+		// 查询章节和书籍详情
+		bookDetail, err := bookService.GetBookDetail(d.BookId)
+		if err != nil {
+			response.Fail(c, consts.CurdSelectFailCode, consts.CurdSelectFailMsg, err.Error())
+			return
+		}
+		indexDetail, err := bookService.GetIndexDetail(d.IndexId)
+		if err != nil {
+			response.Fail(c, consts.CurdSelectFailCode, consts.CurdSelectFailMsg, err.Error())
+			return
+		}
+		retMap := map[string]interface{} {
+			"preBookIndexId": preBookIndexId,
+			"nextBookIndexId": nextBookIndexId,
+			"bookContent": bookContent,
+			"indexDetail": indexDetail,
+			"bookDetail": bookDetail,
+		}
+		response.Success(c, consts.CurdStatusOkMsg, retMap)
+	}
+
 }

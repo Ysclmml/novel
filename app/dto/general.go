@@ -14,7 +14,7 @@ type GeneralListDto struct {
 
 // 分页dto
 type PageDto struct {
-	Page     int `form:"page,default=0" json:"page"`
+	Page     int `form:"page,default=1" json:"page"`
 	PageSize int `form:"page_size,default=10" json:"page_size" binding:"max=20"`
 }
 
