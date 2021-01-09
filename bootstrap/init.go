@@ -5,6 +5,7 @@ import (
 	"log"
 	"novel/app/cache"
 	"novel/app/dao"
+	"novel/app/global/my_validators"
 	"novel/app/global/my_errors"
 	"novel/app/global/variable"
 	zeroLog "novel/app/log"
@@ -55,5 +56,7 @@ func init() {
 	dao.SetUp()
 	// 5. redis连接池的初始化
 	cache.SetUp()
+	// 自定义校验器的初始化
+	my_validators.SetUp()
 
 }

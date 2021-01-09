@@ -33,3 +33,5 @@ go-playground使用起来并没有那么方便. 自定义错误消息太麻烦�
 
 https://gitee.com/inhere/validate
 
+https://github.com/gin-gonic/gin/issues/430#issuecomment-141774133
+

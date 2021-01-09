@@ -16,7 +16,7 @@ type UserController struct {
 }
 func (uc *UserController) Login(c *gin.Context) {
 	var d dto.LoginDto
-	if uc.BindAndValidate(c, &d) {
+	if uc.BindAndValidate2(c, &d) {
 		userDetail, err := userService.Login(d.UserName, d.Password)
 		if err != nil {
 			response.Fail(c, consts.CurdLoginFailCode, consts.CurdLoginFailMsg, err.Error())
@@ -34,7 +34,7 @@ func (uc *UserController) Login(c *gin.Context) {
 
 func (uc *UserController) Register(c *gin.Context) {
 	var d dto.RegisterDto
-	if uc.BindAndValidate(c, &d) {
+	if uc.BindAndValidate2(c, &d) {
 		if err := userService.Register(d); err == nil {
 			response.Success(c, "注册成功", nil)
 			return

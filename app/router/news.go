@@ -14,7 +14,6 @@ func LoadNews(router *gin.Engine)  {
 		bookRouter.GET("/listIndexNews", newsController.ListIndexNews)
 		bookRouter.GET("/listByPage", newsController.ListByPage)
 		bookRouter.GET("/queryNewsInfo/:id", newsController.QueryNewsInfo)
-		// bookRouter.POST("/test", newsController.Test)
 	}
 }
 

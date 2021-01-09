@@ -17,3 +17,12 @@ func (bc *BaseController) BindAndValidate(c *gin.Context, obj interface{}) bool 
 	}
 	return true
 }
+
+// 不适用go-playground v10作为校验器
+func (bc *BaseController) BindAndValidate2(c *gin.Context, obj interface{}) bool {
+	if err := dto.BindValidate(c, obj); err != nil {
+		response.ErrorParam(c, err.Error())
+		return false
+	}
+	return true
+}
