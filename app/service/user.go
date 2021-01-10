@@ -9,7 +9,10 @@ import (
 	"novel/app/utils/md5_encrypt"
 )
 
-var userDao = dao.User{}
+var (
+	userDao = dao.User{}
+	bookShelfDao = dao.BookShelf{}
+)
 
 type UserService struct {
 }
@@ -32,5 +35,37 @@ func (us *UserService) Register(registerDto dto.RegisterDto) error {
 	var userModel model.User
 	copier.Copy(&userModel, &registerDto)
 	return userDao.Register(userModel)
+}
+
+func (us *UserService) QueryIsInShelf(userId int64, bookId int64) bool {
+	// 查询操作就不检查书籍id是否合法
+	return bookShelfDao.QueryIsInShelf(userId, bookId)
+}
+
+func (us *UserService) AddToBookShelf(userId int64, bookId int64, contentId int64) error {
+	// 查询是否已经假如书架了
+	if !us.QueryIsInShelf(userId, bookId) {
+		// 查询书籍id是否合法
+		if bookDao.GetByBookId(bookId).Id <= 0 {
+			return errors.New("书籍不存在")
+		}
+		bookshelf := model.UserBookshelf{
+			UserId:       userId,
+			BookId:       bookId,
+			PreContentId: contentId,
+		}
+		return bookShelfDao.Create(&bookshelf)
+	}
+	return nil
+}
+
+func (us *UserService) RemoveFromBookShelf(userId int64, bookId int64) error {
+	// 将书籍从用户书架中删除
+	return bookShelfDao.RemoveFromBookShelf(userId, bookId)
+}
+
+
+func (us *UserService) ListBookShelfByPage(userId int64, page int, pageSize int) ([]dto.BookShelfRespDto, int64) {
+	return bookShelfDao.ListBookShelfByPage(userId, page, pageSize)
 }
 

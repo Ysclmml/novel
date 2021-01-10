@@ -1,4 +1,4 @@
-package auth
+package token_utils
 
 import (
 	"errors"
@@ -12,7 +12,8 @@ var (
 	tokenNotValidYet = errors.New("token not active yet")
 	tokenMalformed   = errors.New("that's not even a token")
 	tokenInvalid     = errors.New("couldn't handle this token")
-	signKey          = "go-skeleton"
+	tokenExpire    = errors.New("token has expired")
+	signKey          = "novel"
 )
 
 // 获取signKey
@@ -66,20 +67,15 @@ func (j *JwtSign) parseToken(tokenString string) (*CustomClaims, error) {
 			} else if ve.Errors&jwt.ValidationErrorNotValidYet != 0 {
 				return nil, tokenNotValidYet
 			} else if ve.Errors&jwt.ValidationErrorExpired != 0 {
-				// 如果 TokenExpired ,只是过期（格式都正确），我们认为他是有效的，接下可以允许刷新操作
-				token.Valid = true
-				goto labelHere
+				// 如果 TokenExpired ,只是过期, 单独处理
+				return token.Claims.(*CustomClaims), tokenExpire
 			} else {
 				return nil, tokenInvalid
 			}
 		}
 	}
-labelHere:
-	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
-		return claims, nil
-	} else {
-		return nil, tokenInvalid
-	}
+	claims := token.Claims.(*CustomClaims)
+	return claims, nil
 }
 
 // 更新token

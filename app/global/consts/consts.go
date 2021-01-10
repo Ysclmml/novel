@@ -13,7 +13,7 @@ const (
 	ServerOccurredErrorMsg  string = "服务器内部发生代码执行错误, "
 
 	// token相关
-	JwtTokenSignKey       string = "goskeleton"
+	JwtTokenSignKey       string = "novel"
 	JwtTokenOK            int    = 200100           // token有效
 	JwtTokenInvalid       int    = -400100          // 无效的token
 	JwtTokenExpired       int    = -400101          // 过期的token

@@ -21,7 +21,8 @@ type PageDto struct {
 type GeneralTreeDto struct {
 	Q string `form:"q" json:"q"`
 }
-type GeneralDelDto struct {
+// 通用的只传一个id的Dto
+type GeneralPostDto struct {
 	Id int64 `uri:"id" json:"id" binding:"required"`
 }
 type GeneralGetDto struct {

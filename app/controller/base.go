@@ -26,3 +26,12 @@ func (bc *BaseController) BindAndValidate2(c *gin.Context, obj interface{}) bool
 	}
 	return true
 }
+
+func (bc *BaseController) GetUserDetail(c *gin.Context) *dto.UserDetail {
+	userDetail, ok := c.Get("userDetail")
+	if ok {
+		userDetailPtr := userDetail.(*dto.UserDetail)
+		return userDetailPtr
+	}
+	return nil
+}

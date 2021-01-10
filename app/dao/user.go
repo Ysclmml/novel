@@ -46,3 +46,4 @@ func (u *User) GetByUserName(username string) *model.User {
 	db = db.Table("user").First(&userModel, "username = ?", username)
 	return &userModel
 }
+

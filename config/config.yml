@@ -16,6 +16,9 @@ redis:
 rabbitmq:
   enable: false
 
+token:
+  expirationTime: 1209600  # 86400 * 14 14天
+
 Logs:
   GinLogName: "/storage/logs/gin.log"                  #设置 gin 框架的接口访问日志
   GoSkeletonLogName: "/storage/logs/goskeleton.log"    #设置GoSkeleton项目骨架运行时日志文件名，注意该名称不要与上一条重复 ,避免和 gin 框架的日志掺杂一起，造成混乱。
