@@ -24,6 +24,7 @@ func LoadUser(router *gin.Engine)  {
 		bookRouter.POST("/addToBookShelf", userController.AddToBookShelf)
 		bookRouter.POST("/removeFromBookShelf/:id", userController.RemoveFromBookShelf)
 		bookRouter.GET("/listBookShelfByPage", userController.ListBookShelfByPage)
+		bookRouter.GET("/listReadHistoryByPage", userController.ListReadHistoryByPage)
 		bookRouter.POST("/addReadHistory", userController.AddReadHistory)
 		bookRouter.POST("/addFeedBack", userController.AddFeedBack)
 		bookRouter.GET("/listUserFeedBackByPage", userController.ListUserFeedBackByPage)

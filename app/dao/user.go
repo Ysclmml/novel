@@ -47,3 +47,17 @@ func (u *User) GetByUserName(username string) *model.User {
 	return &userModel
 }
 
+func (u *User) UserInfo(userId int64) *dto.UserInfo {
+	db := u.GetDb()
+	var userInfo = dto.UserInfo{}
+	// 下面必须选择table才会把结果存进dto中, 如果选model就不会存进去
+	db.Debug().Table("user").Where("id = ?", userId).Find(&userInfo)
+	return &userInfo
+}
+
+func (u *User) UpdateUserInfo(userModel *model.User) error {
+	db := u.GetDb()
+	// 明确注意userSex是布尔值, 确保为false的时候也更新进去
+	return db.Debug().Select("UserSex", "NickName", "UserPhoto").Updates(userModel).Error
+}
+

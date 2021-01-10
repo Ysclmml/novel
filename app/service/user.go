@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"
+	"gorm.io/gorm"
 	"novel/app/dao"
 	"novel/app/dto"
 	"novel/app/model"
@@ -12,6 +13,8 @@ import (
 var (
 	userDao = dao.User{}
 	bookShelfDao = dao.BookShelf{}
+	bookHistoryDao = dao.BookHistory{}
+	feedbackDao = dao.UserFeedBack{}
 )
 
 type UserService struct {
@@ -67,5 +70,68 @@ func (us *UserService) RemoveFromBookShelf(userId int64, bookId int64) error {
 
 func (us *UserService) ListBookShelfByPage(userId int64, page int, pageSize int) ([]dto.BookShelfRespDto, int64) {
 	return bookShelfDao.ListBookShelfByPage(userId, page, pageSize)
+}
+
+func (us *UserService) ListReadHistoryByPage(userId int64, page int, pageSize int) ([]dto.BookReadHistoryRespDto, int64) {
+	return bookHistoryDao.ListBookHistoryByPage(userId, page, pageSize)
+}
+
+func (us *UserService) AddReadHistory(userId int64, bookId int64, preContentId int64) error {
+	// 删除改书以前的历史记录
+	// 开启事务
+	var err error
+	var tx *gorm.DB
+	defer func() {
+		if err != nil && tx != nil {
+			// 统一回滚事务
+			tx.Rollback()
+		}
+	}()
+
+	tx = dao.GetDb().Begin()
+	bookHistoryDao := dao.BookHistory{DB: tx}
+	if err = bookHistoryDao.DeleteHistory(userId, bookId); err != nil {
+		return err
+	}
+	// 插入该书新的历史记录
+	history := model.UserReadHistory{
+		UserId:       userId,
+		BookId:       bookId,
+		PreContentId: preContentId,
+	}
+	if err = bookHistoryDao.Create(&history); err != nil {
+		return err
+	}
+	tx.Commit()
+	return nil
+}
+
+func (us *UserService) AddFeedBack(userId int64, content string) error {
+	feedback := model.UserFeedback{
+		UserId:     userId,
+		Content:    content,
+	}
+	return feedbackDao.Create(&feedback)
+}
+
+func (us *UserService) ListUserFeedBackByPage(userId int64, page int, pageSize int) ([]model.UserFeedback, int64) {
+	return feedbackDao.ListUserFeedBackByPage(userId, page, pageSize)
+}
+
+func (us *UserService) UserInfo(userId int64) *dto.UserInfo {
+	userInfo := userDao.UserInfo(userId)
+	return userInfo
+}
+
+func (us *UserService) UpdateUserInfo(userId int64, updateDto dto.UserUpdateDto) error {
+	user := model.User{
+		BaseModel:      model.BaseModel{
+			Id: userId,
+		},
+		NickName:       updateDto.NickName,
+		UserPhoto:      updateDto.UserPhoto,
+		UserSex:        updateDto.UserSex,
+	}
+	return userDao.UpdateUserInfo(&user)
 }
 

@@ -104,33 +104,83 @@ func (uc *UserController) ListBookShelfByPage(c *gin.Context) {
 		response.PageSuccess(c, list, count)
 	}
 }
+func (uc *UserController) ListReadHistoryByPage(c *gin.Context) {
+	var d dto.PageDto
+	userDetail := uc.GetUserDetail(c)
+	if uc.BindAndValidate(c, &d) {
+		list, count := userService.ListReadHistoryByPage(userDetail.Id, d.Page, d.PageSize)
+		response.PageSuccess(c, list, count)
+	}
+}
 
 func (uc *UserController) AddReadHistory(c *gin.Context) {
-	
+	var d dto.BookRecordDto
+	userDetail := uc.GetUserDetail(c)
+	if uc.BindAndValidate2(c, &d) {
+		err := userService.AddReadHistory(userDetail.Id, d.BookId, d.PreContentId)
+		if err != nil {
+			response.Fail(c, consts.CurdCreatFailCode, consts.CurdCreatFailMsg, err.Error())
+			return
+		}
+		response.Ok(c)
+	}
 }
 
+// 添加反馈
 func (uc *UserController) AddFeedBack(c *gin.Context) {
-	
+	d := struct {Content string `json:"content" validate:"required"`}{}
+	userDetail := uc.GetUserDetail(c)
+	if uc.BindAndValidate2(c, &d) {
+		if err := userService.AddFeedBack(userDetail.Id, d.Content); err != nil {
+			response.Fail(c, consts.CurdCreatFailCode, consts.CurdCreatFailMsg, err.Error())
+		} else {
+			response.Ok(c)
+		}
+	}
+
 }
 
+// 分页查询我的反馈列表
 func (uc *UserController) ListUserFeedBackByPage(c *gin.Context) {
-	
+	var d dto.PageDto
+	userDetail := uc.GetUserDetail(c)
+	if uc.BindAndValidate(c, &d) {
+		page, count := userService.ListUserFeedBackByPage(userDetail.Id, d.Page, d.PageSize)
+		response.PageSuccess(c, page, count)
+	}
 }
 
 func (uc *UserController) UserInfo(c *gin.Context) {
-	
+	userDetail := uc.GetUserDetail(c)
+	userInfo := userService.UserInfo(userDetail.Id)
+	response.Success(c, consts.CurdStatusOkMsg, userInfo)
 }
 
+// 更新个人信息
 func (uc *UserController) UpdateUserInfo(c *gin.Context) {
-	
+	userDetail := uc.GetUserDetail(c)
+	var d dto.UserUpdateDto
+	if uc.BindAndValidate2(c, &d) {
+		if err := userService.UpdateUserInfo(userDetail.Id, d); err != nil{
+			response.Fail(c, consts.CurdUpdateFailCode, consts.CurdUpdateFailMsg, err.Error())
+		} else {
+			// 更新用户的token, todo: 后续需要将当前token加入黑名单
+			if d.NickName != "" {
+				userDetail.NickName = d.NickName
+				token, _ := token_utils.GenerateToken(*userDetail)
+				response.Success(c, consts.CurdStatusOkMsg, map[string]string{"token": token})
+			}
+			response.Success(c, consts.CurdStatusOkMsg, "")
+		}
+	}
 }
 
 func (uc *UserController) ListCommentByPage(c *gin.Context) {
-	
+
 }
 
 func (uc *UserController) BuyBookIndex(c *gin.Context) {
-	
+
 }
 
 
