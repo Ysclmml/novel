@@ -14,19 +14,26 @@ type UserInfo struct {
 	NickName       string `form:"nick_name" json:"nick_name"`
 	UserPhoto      string `json:"user_photo"`      // 用户头像
 	UserSex        bool   `json:"user_sex"`        // 用户性别，0：男，1：女
-	AccountBalance int64  `json:"account_balance"` // 账户余额
+	AccountBalance int  `json:"account_balance"` // 账户余额
 }
 
 type UserUpdateDto struct {
-	NickName  string `json:"nick_name" validate:"required|minLen:3|maxLen:10"`  // 昵称
-	UserPhoto string `json:"user_photo" validate:"required"` // 用户头像
-	UserSex   bool   `json:"user_sex"`  // 这里使用指针会报错
+	NickName  string `json:"nick_name" validate:"required|minLen:3|maxLen:10"` // 昵称
+	UserPhoto string `json:"user_photo" validate:"required"`                   // 用户头像
+	UserSex   bool   `json:"user_sex"`                                         // 这里使用指针会报错
 }
 
 type LoginDto struct {
 	UserName string `form:"username" json:"username" validate:"required|phone" message:"required:用户名不能为空|phone:必须是合法的手机号"`
 	Password string `form:"password" json:"password" validate:"required"`
 	// Code     string `form:"code" json:"code"`
+}
+
+type ChgPasswordDto struct {
+	OldPassword string `json:"old_password" validate:"required" message:"required:旧密码必传"`
+	NewPassword string `json:"new_password" validate:"required"`
+	// 这里踩了两个坑, 首先指定的字段必须是驼峰体的. 其次错误消息只有一个的情况下, 默认只对应第一个校验器.
+	NewRePassword string `json:"new_re_password" validate:"required|eq_field:NewPassword" message:"required:新密码必传|eq_field:两次密码必须一致"`
 }
 
 type RegisterDto struct {
@@ -68,4 +75,14 @@ type BookReadHistoryRespDto struct {
 type BookRecordDto struct {
 	BookId       int64 `json:"book_id" validate:"required"`        // 小说Id
 	PreContentId int64 `json:"pre_content_id" validate:"required"` // 上一次阅读的章节内容表Id
+}
+
+// 购买小说章节dto
+type BookBuyRecordDto struct {
+	UserId        int64  `json:"user_id"`                           // 用户Id
+	BookId        int64  `json:"book_id" validate:"required"`       // 小说Id
+	BookName      string `json:"book_name"`     // 购买的小说名
+	BookIndexId   int64  `json:"book_index_id" validate:"required"` // 购买的章节Id
+	BookIndexName string `json:"book_index_name"`
+	BuyAmount     int    `json:"buy_amount"` // 购买使用的屋币数量😙
 }

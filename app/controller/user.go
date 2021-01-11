@@ -176,11 +176,51 @@ func (uc *UserController) UpdateUserInfo(c *gin.Context) {
 }
 
 func (uc *UserController) ListCommentByPage(c *gin.Context) {
-
+	userDetail := uc.GetUserDetail(c)
+	var d dto.PageDto
+	if uc.BindAndValidate2(c, &d) {
+		page, count := bookService.ListCommentByPage(userDetail.Id, 0, d.Page, d.PageSize)
+		response.PageSuccess(c, page, count)
+	}
 }
 
 func (uc *UserController) BuyBookIndex(c *gin.Context) {
+	userDetail := uc.GetUserDetail(c)
+	var d dto.BookBuyRecordDto
+	if uc.BindAndValidate2(c, &d) {
+		d.UserId = userDetail.Id
+		if bookIndex, err := bookService.GetIndexDetail(d.BookIndexId); err != nil {
+			response.Fail(c, consts.CurdUpdateFailCode, consts.CurdUpdateFailMsg, err.Error())
+		} else {
+			// 查看书籍id和index里的book_id是否一致
+			if bookIndex.BookId != d.BookId {
+				response.Fail(c, consts.CurdCreatFailCode, consts.CurdUpdateFailMsg, "书籍id错误")
+			}
+			d.BuyAmount = bookIndex.BookPrice
+			d.BookIndexName = bookIndex.IndexName
+			book, _ := bookService.GetBookDetail(d.BookId)
+			d.BookName = book.BookName
+			err := userService.BuyBookIndex(d)
+			if err != nil {
+				response.Fail(c, consts.CurdUpdateFailCode, consts.CurdUpdateFailMsg, err.Error())
+			} else {
+				response.Ok(c)
+			}
+		}
+	}
+}
 
+func (uc *UserController) UpdatePassword(c *gin.Context) {
+	var d dto.ChgPasswordDto
+	userDetail := uc.GetUserDetail(c)
+	if uc.BindAndValidate2(c, &d) {
+		err := userService.UpdatePassword(userDetail.Id, d.OldPassword, d.NewPassword)
+		if err != nil {
+			response.Fail(c, consts.CurdUpdateFailCode, consts.CurdUpdateFailMsg, err.Error())
+		} else {
+			response.Ok(c)
+		}
+	}
 }
 
 

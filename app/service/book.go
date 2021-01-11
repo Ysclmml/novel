@@ -132,7 +132,7 @@ func (bs *BookService) ListRecBookByCatId(bookId int64, catId int64) []dto.ListR
 	return bookDao.ListRecBookByCatId(bookId, catId)
 }
 
-func (bs *BookService) ListCommentByPage(userId int, bookId int64, page int, pageSize int) ([]dto.ListCommentRespDto, int64) {
+func (bs *BookService) ListCommentByPage(userId int64, bookId int64, page int, pageSize int) ([]dto.ListCommentRespDto, int64) {
 	res, count := bookDao.ListCommentByPage(userId, bookId, page, pageSize)
 	return res, count
 }

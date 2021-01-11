@@ -30,6 +30,7 @@ func LoadUser(router *gin.Engine)  {
 		bookRouter.GET("/listUserFeedBackByPage", userController.ListUserFeedBackByPage)
 		bookRouter.GET("/userInfo", userController.UserInfo)
 		bookRouter.POST("/updateUserInfo", userController.UpdateUserInfo)
+		bookRouter.POST("/updatePassword", userController.UpdatePassword)
 		bookRouter.GET("/listCommentByPage", userController.ListCommentByPage)
 		bookRouter.POST("/buyBookIndex", userController.BuyBookIndex)
 

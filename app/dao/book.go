@@ -100,20 +100,22 @@ func (book *Book) ListRecBookByCatId(bookId int64, catId int64) []dto.ListRecBoo
 	return recBooks
 }
 
-func (book *Book) ListCommentByPage(userId int, bookId int64, page int, pageSize int) ([]dto.ListCommentRespDto, int64) {
+func (book *Book) ListCommentByPage(userId int64, bookId int64, page int, pageSize int) ([]dto.ListCommentRespDto, int64) {
 	db := book.GetDb()
 	var respDto []dto.ListCommentRespDto
 	var count int64
 	db = db.Debug().Table("book_comment t1").
 		Select("t1.id", "t1.book_id", "t1.comment_content", "t1.reply_count", "t1.create_time",
 			"t2.username create_user_name", "t2.user_photo create_user_photo").
-		Joins("inner join user t2 on t1.create_user_id = t2.id").Where("book_id = ?", bookId).
-		Offset(page * pageSize).Limit(pageSize)
+		Joins("inner join user t2 on t1.create_user_id = t2.id")
 	if userId > 0 {
-		db = db.Where("user_id = ?", userId)
+		db = db.Where("t1.create_user_id = ?", userId)
 	}
-	db.Find(&respDto)
+	if bookId > 0 {
+		db = db.Where("book_id = ?", bookId)
+	}
 	db.Count(&count)
+	db.Offset((page - 1) * pageSize).Limit(pageSize).Find(&respDto)
 	return respDto, count
 }
 

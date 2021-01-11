@@ -15,6 +15,7 @@ var (
 	bookShelfDao = dao.BookShelf{}
 	bookHistoryDao = dao.BookHistory{}
 	feedbackDao = dao.UserFeedBack{}
+	buyRecordDao = dao.BuyRecord{}
 )
 
 type UserService struct {
@@ -133,5 +134,53 @@ func (us *UserService) UpdateUserInfo(userId int64, updateDto dto.UserUpdateDto)
 		UserSex:        updateDto.UserSex,
 	}
 	return userDao.UpdateUserInfo(&user)
+}
+
+func (us *UserService) UpdatePassword(userId int64, oldPassword string, newPassword string) error {
+	// 比对旧密码是否一致
+	oldPassword = md5_encrypt.Base64Md5(oldPassword)
+	newPassword = md5_encrypt.Base64Md5(newPassword)
+	if userDao.GetById(userId).Password != oldPassword {
+		return errors.New("原密码错误")
+	}
+	return userDao.UpdatePassword(userId, newPassword)
+}
+
+func (us *UserService) BuyBookIndex(buyRecordDto dto.BookBuyRecordDto) error {
+	var buyModel model.UserBuyRecord
+	copier.Copy(&buyModel, &buyRecordDto)
+	// 开启事务
+	var err error
+	var tx *gorm.DB
+	defer func() {
+		if err != nil && tx != nil {
+			// 统一回滚事务
+			tx.Rollback()
+		}
+	}()
+	// 查询该章节是否有被购买过
+	if buyRecordDao.CheckIsBuy(buyRecordDto.BookIndexId, buyRecordDto.UserId) {
+		return errors.New("已被购买过")
+	}
+	// 查询用户的余额情况
+	userInfo := us.UserInfo(buyRecordDto.UserId)
+	if userInfo.AccountBalance < buyRecordDto.BuyAmount {
+		return errors.New("余额不足")
+	}
+
+	tx = dao.GetDb().Begin()
+	// 购买记录
+	buyRecordDao := dao.BuyRecord{BaseDao: dao.BaseDao{DB: tx}}
+	err = buyRecordDao.Create(&buyModel)
+	if err != nil {
+		return err
+	}
+	// 减少用户余额
+	err = userDao.UpdateUserBalance(buyRecordDto.UserId, userInfo.AccountBalance - buyRecordDto.BuyAmount)
+	if err != nil {
+		return err
+	}
+	tx.Commit()
+	return nil
 }
 

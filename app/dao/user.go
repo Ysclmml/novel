@@ -61,3 +61,17 @@ func (u *User) UpdateUserInfo(userModel *model.User) error {
 	return db.Debug().Select("UserSex", "NickName", "UserPhoto").Updates(userModel).Error
 }
 
+func (u *User) UpdatePassword(userId int64, password string) error {
+	db := u.GetDb()
+	return db.Debug().Table("user").Where("id = ?", userId).Update("password", password).Error
+}
+
+func (u *User) BuyBookIndex(d *dto.BookBuyRecordDto) {
+
+}
+
+func (u *User) UpdateUserBalance(userId int64, balance int) error {
+	db := u.GetDb()
+	return db.Debug().Model(&model.User{}).Where("id = ?", userId).Update("balance", balance).Error
+}
+

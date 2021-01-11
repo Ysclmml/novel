@@ -24,9 +24,9 @@ https://github.com/201206030/novel-plus
   + 全局统一响应状态 ok
 + 全局统一校验 (参数错误信息未国际化处理, 是英文的错误信息)
   + 自定义时间格式化信息
-
 + 权限控制
-  + 
++ 分页展示封装
++ 事务封装
 
 
 
@@ -37,4 +37,12 @@ go-playground使用起来并没有那么方便. 自定义错误消息太麻烦�
 https://gitee.com/inhere/validate
 
 https://github.com/gin-gonic/gin/issues/430#issuecomment-141774133
+
+
+
+分页展示封装, 写了好多次,考虑封装一下. 
+
+现在书写事务及其麻烦, 需要封装一下. 
+
+异常错误信息需要再统一下, 现在写的有点乱了. 
 
