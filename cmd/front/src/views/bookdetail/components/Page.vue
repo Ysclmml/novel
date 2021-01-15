@@ -78,7 +78,7 @@
 
 <script>
 import {dateFormat} from "@/utils";
-import {queryBookDetail, queryBookIndexAbout} from "@/api/book"
+import {addVisitCount, queryBookDetail, queryBookIndexAbout} from "@/api/book"
 import Comment from "@/views/comment/components/Comment"
 import AuthorPart from "@/views/bookdetail/components/AuthorPart";
 import ClassifyRec from "@/views/bookdetail/components/ClassifyRec";
@@ -107,6 +107,8 @@ export default {
     this.bookId = this.$route.params.bookId
     await this.getBookDetail()
     await this.getLatestUpdate()
+    this.addVisit()
+
   },
   methods: {
     async getBookDetail() {
@@ -116,6 +118,10 @@ export default {
     async getLatestUpdate() {
       const { data } = await queryBookIndexAbout(this.bookId, this.bookDetail.last_index_id)
       this.bookAbout = data
+    },
+    // 添加访问数
+    addVisit() {
+      addVisitCount(this.bookId).then().catch(err => {console.log('err: addVisit ----', err)})
     }
   }
 }

@@ -76,3 +76,14 @@ export function listRecBookByCatId (bookId, catId) {
         }
     })
 }
+
+// 添加访问量
+export function addVisitCount (bookId) {
+    return instance({
+        url: '/v1/book/addVisitCount/' + bookId,
+        method: 'post',
+        data: {
+            book_id: bookId,
+        }
+    })
+}

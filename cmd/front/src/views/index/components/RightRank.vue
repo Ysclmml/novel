@@ -9,13 +9,16 @@
         <ul>
           <li v-for="(item, index) in booksList" :key="index" :class="`num${index+1}` + (index === 0 ?' on' : '')">
             <div class="book_name">
-              <i>{{ index + 1 }}</i><a class="name" href="">{{ item.book_name }}</a>
+              <i>{{ index + 1 }}</i>
+              <router-link :to="{name: 'BookDetail', params: {bookId: item.id }}" class="name">{{ item.book_name }}</router-link>
             </div>
             <div class="book_intro">
               <div class="cover">
-                <a href=""><img :src="item.pic_url" :alt="item.book_name"></a>
+                <router-link :to="{name: 'BookDetail', params: {bookId: item.id }}">
+                  <img :src="item.pic_url" :alt="item.book_name">
+                </router-link>
               </div>
-              <a class="txt" href="" v-html="item.book_desc" />
+              <router-link :to="{name: 'BookDetail', params: {bookId: item.id }}" class="txt" v-html="item.book_desc" />
             </div>
           </li>
         </ul>

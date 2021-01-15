@@ -13,7 +13,7 @@
                 <a @click="goBookDetail(item.id)"><img :src="item.pic_url" :alt="item.book_name"></a>
               </div>
               <div class="dec">
-                <a class="book_name" @click="goBookDetail(item.id)">>{{ item.book_name }}</a>
+                <a class="book_name" @click="goBookDetail(item.id)">{{ item.book_name }}</a>
                 <a class="txt" @click="goBookDetail(item.id)" v-html="item.book_desc"></a>
               </div>
             </div>

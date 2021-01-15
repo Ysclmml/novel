@@ -20,13 +20,13 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in booksList" :key="index">
-            <td class="style"><a href="">[{{ item.cat_name }}]</a></td>
-            <td class="name"><a href="">{{ item.book_name }}</a></td>
+            <td class="style"><a @click="goBookDetail(item.id)">[{{ item.cat_name }}]</a></td>
+            <td class="name"><a @click="goBookDetail(item.id)">{{ item.book_name }}</a></td>
             <td class="chapter">
-              <a href="">{{ item.last_index_name }}</a>
+              <a>{{ item.last_index_name }}</a>
               <i class="" />
             </td>
-            <td class="author"><a href="">{{ item.author_name }}</a></td>
+            <td class="author"><a>{{ item.author_name }}</a></td>
             <td class="time">{{ item.last_index_update_time | timeFormat }}</td>
           </tr>
         </tbody>
@@ -50,6 +50,14 @@ export default {
     booksList: {
       type: Array,
       default: () => { return [] }
+    }
+  },
+  methods: {
+    goBookDetail(bookId) {
+      this.$router.push({
+        name: 'BookDetail',
+        params: { bookId }
+      })
     }
   }
 }

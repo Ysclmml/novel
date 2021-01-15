@@ -140,12 +140,12 @@ opacity:0.3
 .author_book .rightList ul { padding:0 }
 
 
-.tj_bar .cover { float: left; display: block; margin-right: 10px }
-.tj_bar .cover img { width: 64px; height: auto; background: #f6f6f6 }
+.tj_bar .cover { float: left; display: block; margin-right: 10px; }
+.tj_bar .cover img { width: 64px; height: auto; background: #f6f6f6; cursor: pointer }
 .tj_bar .book_intro { padding: 15px 0; clear: both; word-break: break-all; zoom: 1; overflow: hidden }
 .tj_bar .dec { width: 136px; float: right }
-.tj_bar .book_intro .book_name { display: block; font-size: 14px; line-height: 1; white-space: nowrap; text-overflow: ellipsis; overflow: hidden }
-.tj_bar .book_intro .txt { height: 54px; line-height: 1.5; color: #808080; overflow: hidden; display: block; margin-top: 10px; }
+.tj_bar .book_intro .book_name { display: block; font-size: 14px; line-height: 1; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;cursor: pointer }
+.tj_bar .book_intro .txt { height: 54px; line-height: 1.5; color: #808080; overflow: hidden; display: block; margin-top: 10px; cursor: pointer}
 .tj_bar li { border-bottom: 1px solid #eee }
 .tj_bar li:last-child { border: none }
 .tj_bar li:last-child .book_intro { padding: 15px 0 2px }

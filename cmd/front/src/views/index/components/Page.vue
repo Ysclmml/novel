@@ -17,28 +17,58 @@
           <div id="carouseSmall" class="scSmallImg">
             <ul>
               <li v-for="(item, idx) in bannerPic" :key="item.book_id" :class="bannerSelectIdx === idx ? 'on' : ''">
-                <img :src="item.pic_url" @mouseover="bannerSelectIdx=idx" @click="goBookDetail(item.book_id)">
+                <img :src="item.pic_url" alt="" @mouseover="bannerSelectIdx=idx" @click="goBookDetail(item.book_id)">
               </li>
             </ul>
           </div>
         </div>
         <div class="hot_articles">
           <dl id="topBooks1" class="hot_recommend">
-            <dt><a href="" class="" />{{ bannerWord[0] ? bannerWord[0].book_name : '' }}</dt>
+            <dt>
+              <router-link v-show="bannerWord[0]" :to="{name: 'BookDetail', params: { bookId: bannerWord[0] ? bannerWord[0].book_id : '0'}}">
+                {{ bannerWord[0] ? bannerWord[0].book_name : '' }}
+              </router-link>
+            </dt>
             <dd>
-              <a v-for="(item, idx) in bannerWord.slice(1, 3)" :key="idx" href="">{{ item.book_name }}</a>
+              <router-link
+                v-for="(item, idx) in bannerWord.slice(1, 3)"
+                :key="idx"
+                :to="{name: 'BookDetail', params: { bookId: item.book_id }}"
+              >
+                {{ item.book_name }}
+              </router-link>
             </dd>
             <dd>
-              <a v-for="(item, idx) in bannerWord.slice(3, 5)" :key="idx" href="">{{ item.book_name }}</a>
+              <router-link
+                v-for="(item, idx) in bannerWord.slice(3, 5)"
+                :key="idx"
+                :to="{name: 'BookDetail', params: { bookId: item.book_id }}"
+              >
+                {{ item.book_name }}
+              </router-link>
             </dd>
           </dl>
           <dl id="topBooks2" class="hot_recommend">
-            <dt><a href="" class="" />{{ bannerWord[5] ? bannerWord[5].book_name : '' }}</dt>
+            <dt>
+              <router-link :to="{name: 'BookDetail', params: { bookId: bannerWord[5] ? bannerWord[5].book_id : '0' }}" />{{ bannerWord[5] ? bannerWord[5].book_name : '' }}
+            </dt>
             <dd>
-              <a v-for="(item, idx) in bannerWord.slice(6, 8)" :key="idx" href="">{{ item.book_name }}</a>
+              <router-link
+                v-for="(item, idx) in bannerWord.slice(6, 8)"
+                :key="idx"
+                :to="{name: 'BookDetail', params: { bookId: item.book_id }}"
+              >
+                {{ item.book_name }}
+              </router-link>
             </dd>
             <dd>
-              <a v-for="(item, idx) in bannerWord.slice(8, 10)" :key="idx" href="">{{ item.book_name }}</a>
+              <router-link
+                v-for="(item, idx) in bannerWord.slice(8, 10)"
+                :key="idx"
+                :to="{name: 'BookDetail', params: { bookId: item.book_id }}"
+              >
+                {{ item.book_name }}
+              </router-link>
             </dd>
           </dl>
           <News />
@@ -56,12 +86,12 @@
             <li v-for="(item, index) in weekRecBooks" :key="index"
                 :class="`num${index+1}` + (index === 0 ?' on' : '') "
             >
-              <div class="book_name"><i>{{ index + 1 }}</i><a class="name" href="">{{ item.book_name }}</a></div>
+              <div class="book_name"><i>{{ index + 1 }}</i><a class="name" @click="goBookDetail(item.book_id)">{{ item.book_name }}</a></div>
               <div class="book_intro">
                 <div class="cover">
-                  <a href=""><img :src="item.pic_url" alt=""></a>
+                  <a><img :src="item.pic_url" alt="" @click="goBookDetail(item.book_id)"></a>
                 </div>
-                <a class="txt" href="" v-html="item.book_desc" />
+                <a class="txt" @click="goBookDetail(item.book_id)" v-html="item.book_desc" />
               </div>
             </li>
           </ul>
@@ -76,14 +106,14 @@
         </div>
         <div id="hotRecBooks" class="picRecommend cf">
           <div v-for="(item, index) in hotRecBooks" :key="index" class="itemsList">
-            <a class="items_img" href="">
-              <img :src="item.pic_url" :alt="item.book_name">
+            <a class="items_img">
+              <img :src="item.pic_url" :alt="item.book_name" @click="goBookDetail(item.book_id)">
             </a>
             <div class="items_txt">
-              <h4><a href="">{{ item.book_name }}</a></h4>
-              <p class="author"><a href="" class="">作者：{{ item.author_name }}</a></p>
+              <h4><a @click="goBookDetail(item.book_id)">{{ item.book_name }}</a></h4>
+              <p class="author"><a class="">作者：{{ item.author_name }}</a></p>
               <p class="intro">
-                <a href="" v-html="item.book_desc" />
+                <a @click="goBookDetail(item.book_id)" v-html="item.book_desc" />
               </p>
             </div>
           </div>
@@ -99,14 +129,14 @@
         </div>
         <div id="classicBooks" class="picRecommend cf">
           <div v-for="(item, index) in classicRecBooks" :key="index" class="itemsList">
-            <a class="items_img" href="">
-              <img :src="item.pic_url" :alt="item.book_name">
+            <a class="items_img">
+              <img :src="item.pic_url" :alt="item.book_name" @click="goBookDetail(item.book_id)">
             </a>
             <div class="items_txt">
-              <h4><a href="">{{ item.book_name }}</a></h4>
-              <p class="author"><a href="" class="">作者：{{ item.author_name }}</a></p>
+              <h4><a @click="goBookDetail(item.book_id)">{{ item.book_name }}</a></h4>
+              <p class="author"><a @click="goBookDetail(item.book_id)">作者：{{ item.author_name }}</a></p>
               <p class="intro">
-                <a href="" v-html="item.book_desc" />
+                <a @click="goBookDetail(item.book_id)" v-html="item.book_desc" />
               </p>
             </div>
           </div>
@@ -116,7 +146,7 @@
     </div>
 
     <div class="channelWrap channelTable cf">
-      <UpdatePart :books-list="rightBooks.updateBooks"></UpdatePart>
+      <UpdatePart :books-list="rightBooks.updateBooks" />
       <RightRank rank-type="update" :books-list="rightBooks.updateBooks.slice(0, 10)" />
     </div>
   </div>

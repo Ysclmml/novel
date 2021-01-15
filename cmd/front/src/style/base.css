@@ -52,7 +52,8 @@ a img {
 a {
   outline: none;
   color: #333;
-  text-decoration: none
+  text-decoration: none;
+  cursor: pointer
 }
 
 a:hover, .topBar a:hover, .red, .record_list li:hover .read_link a {

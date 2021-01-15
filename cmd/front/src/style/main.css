@@ -37,9 +37,9 @@
 .rightList ul { padding: 0  }
 .rightList li { /*border-bottom: 1px dotted #e0e0e0; height: 37px; line-height: 37px;*/ overflow: hidden; position: relative; vertical-align: middle }
 .rightList li:last-child { border: none }
-.rightList .book_name { font-size: 14px; height: 34px; line-height: 34px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden }
+.rightList .book_name { font-size: 14px; height: 34px; line-height: 34px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; cursor: pointer }
 .rightList .book_intro { background: #f7f7f7; border: 1px solid #eee; clear: both; padding: 8px; word-break: break-all; zoom: 1; overflow: hidden; display: none }
-.rightList .cover, .rightList .book_intro .txt { display: none }
+.rightList .cover, .rightList .book_intro .txt { display: none; cursor: pointer}
 .rightList li.on { height: auto; padding: 4px 0; border: none }
 .rightList li.on .book_intro { display: block }
 .rightList li.on .cover { float: left; display: block }
@@ -65,7 +65,7 @@
 .leftBox .title h2 { line-height: 1; padding-bottom: 14px; display: inline-block; font-size: 20px; font-weight: 600; /*border-bottom: 4px solid transparent*/ }
 .picRecommend { width: 720px; padding: 12px 0 0 }
 .itemsList { width: 50%; float: left; padding: 17px 0 }
-.itemsList .items_img { float: left; margin-right: 14px }
+.itemsList .items_img { float: left; margin-right: 14px; cursor: pointer}
 .itemsList .items_img img { width: 96px; height: 120px; background: #f6f6f6 }
 .items_txt { width: 230px; float: left; /*padding-right: 20px;*/ }
 .items_txt h4 { height: 20px; line-height: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; word-break: keep-all; margin-bottom: 8px; font-size: 16px; font-weight: normal }
