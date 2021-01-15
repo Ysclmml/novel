@@ -23,10 +23,10 @@ type GeneralTreeDto struct {
 }
 // 通用的只传一个id的Dto
 type GeneralPostDto struct {
-	Id int64 `uri:"id" json:"id" binding:"required"`
+	Id int64 `uri:"id" json:"id,string" binding:"required"`
 }
 type GeneralGetDto struct {
-	Id int64 `uri:"id" json:"id" binding:"required"`
+	Id int64 `uri:"id" json:"id,string" binding:"required"`
 }
 
 // TransformSearch - transform search query

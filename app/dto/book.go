@@ -10,14 +10,14 @@ type BookCreateDto struct {
 	CatID         int    `form:"cat_id" json:"cat_id" binding:"required"`       // 分类ID
 	CatName       string `form:"cat_name" json:"cat_name"`                      // 分类名
 	PicURL        string `form:"pic_url" json:"pic_url"`                        // 小说封面
-	BookName      string `form:"book_name" json:"book_name" binding:"required"` // 小说名
-	AuthorID      int64  `form:"author_id" json:"author_id" binding:"required"` // 作者id
+	BookName      string `form:"book_name" json:"book_name string" binding:"required"` // 小说名
+	AuthorID      int64  `form:"author_id" json:"author_id,string" binding:"required"` // 作者id
 	AuthorName    string `form:"author_name" json:"author_name"`                // 作者名
 	BookDesc      string `form:"book_desc" json:"book_desc"`                    // 书籍描述
 }
 
 type BookCategoryRespDto struct {
-	Id            int64  `json:"id"`
+	Id            int64  `json:"id,string"`
 	WorkDirection bool   `json:"work_direction"` // 作品方向，0：男频，1：女频'
 	Name          string `json:"name"`           // 分类名
 	Sort          int8   `json:"sort"`           // 排序
@@ -30,8 +30,8 @@ type BookRankDto struct {
 }
 
 type BookIndexAboutDto struct {
-	BookId      int64 `form:"book_id"`
-	BookIndexId int64 `form:"book_index_id"`
+	BookId      int64 `form:"book_id,string"`
+	BookIndexId int64 `form:"book_index_id,string"`
 }
 
 // 章节最新相关信息
@@ -42,12 +42,12 @@ type BookIndexAboutRespDto struct {
 
 // 推荐书籍需要传的数据
 type ListRecBookDto struct {
-	CatId  int64 `form:"cat_id"`
-	BookId int64 `form:"book_id"`
+	CatId  int64 `form:"cat_id,string"`
+	BookId int64 `form:"book_id,string"`
 }
 
 type ListRecBookRespDto struct {
-	ID       int64  `json:"id"`
+	ID       int64  `json:"id,string"`
 	PicUrl   string `json:"pic_url"`
 	BookName string `json:"book_name"`
 	BookDesc string `json:"book_desc"`
@@ -55,7 +55,7 @@ type ListRecBookRespDto struct {
 
 type ListCommentDto struct {
 	PageDto
-	BookId int64 `form:"book_id" binding:"required"`
+	BookId int64 `form:"book_id" binding:"required" json:"book_id,string"`
 }
 
 type ListCommentRespDto struct {
@@ -80,19 +80,19 @@ type IndexListRespDto struct {
 type ListIndexDto struct {
 	Page     int `form:"page" json:"page"`
 	PageSize int `form:"page_size" json:"page_size"`
-	BookId int64  `form:"book_id" binding:"required"`
+	BookId int64  `form:"book_id" binding:"required" json:"book_id,string"`
 	Order  string `form:"order,default=index_num"`
 }
 
 type BookSettingDto struct {
-	BookId     int64   `json:"book_id"` // 小说ID
+	BookId     int64   `json:"book_id,string"` // 小说ID
 	Sort       int8    `json:"sort"`    // 排序号
 	Type       int8    `json:"type"`
 	CatID      int     `json:"cat_id"`      // 分类ID
 	CatName    string  `json:"cat_name"`    // 分类名
 	PicURL     string  `json:"pic_url"`     // 小说封面
 	BookName   string  `json:"book_name"`   // 小说名
-	AuthorID   int64   `json:"author_id"`   // 作者id
+	AuthorID   int64   `json:"author_id,string"`   // 作者id
 	AuthorName string  `json:"author_name"` // 作者名
 	BookDesc   string  `json:"book_desc"`   // 书籍描述
 	Score      float32 `json:"score"`       // 评分，预留字段

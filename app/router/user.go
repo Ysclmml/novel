@@ -10,7 +10,7 @@ import (
 
 func LoadUser(router *gin.Engine)  {
 	userController := controller.UserController{}
-	bookRouter := router.Group("/user")
+	bookRouter := router.Group("v1/user")
 	{
 		// 不需要登录的路由
 		bookRouter.POST("/login", userController.Login)

@@ -61,28 +61,28 @@ type BookShelfRespDto struct {
 }
 
 type BookReadHistoryRespDto struct {
-	Id                  int64         `json:"id"`
-	BookId              int64         `json:"book_id"` // 小说Id
+	Id                  int64         `json:"id,string"`
+	BookId              int64         `json:"book_id,string"` // 小说Id
 	BookName            string        `json:"book_name"`
-	PreContentId        int64         `json:"pre_content_id"` // 上一次阅读的章节内容表Id
+	PreContentId        int64         `json:"pre_content_id,string"` // 上一次阅读的章节内容表Id
 	CatId               int64         `json:"cat_id"`
 	CatName             string        `json:"cat_name"`
-	LastIndexId         int64         `json:"last_index_id"`
+	LastIndexId         int64         `json:"last_index_id,string"`
 	LastIndexName       string        `json:"last_index_name"`
 	LastIndexUpdateTime time.JsonTime `json:"last_index_update_time"`
 }
 
 type BookRecordDto struct {
-	BookId       int64 `json:"book_id" validate:"required"`        // 小说Id
-	PreContentId int64 `json:"pre_content_id" validate:"required"` // 上一次阅读的章节内容表Id
+	BookId       int64 `json:"book_id,string" validate:"required"`        // 小说Id
+	PreContentId int64 `json:"pre_content_id,string" validate:"required"` // 上一次阅读的章节内容表Id
 }
 
 // 购买小说章节dto
 type BookBuyRecordDto struct {
-	UserId        int64  `json:"user_id"`                           // 用户Id
-	BookId        int64  `json:"book_id" validate:"required"`       // 小说Id
+	UserId        int64  `json:"user_id,string"`                           // 用户Id
+	BookId        int64  `json:"book_id,string" validate:"required"`       // 小说Id
 	BookName      string `json:"book_name"`     // 购买的小说名
-	BookIndexId   int64  `json:"book_index_id" validate:"required"` // 购买的章节Id
+	BookIndexId   int64  `json:"book_index_id,string" validate:"required"` // 购买的章节Id
 	BookIndexName string `json:"book_index_name"`
 	BuyAmount     int    `json:"buy_amount"` // 购买使用的屋币数量😙
 }

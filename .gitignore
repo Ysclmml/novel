@@ -1,5 +1,12 @@
 /.idea/
 .idea/
 .idea
+/**/.idea/
 /storage/logs/*
 /storage/uploaded/*
+*.out
+
+# 前端忽略
+cmd/front/node_modules/
+cmd/front/package-lock.json
+cmd/front/dist/

@@ -82,7 +82,7 @@ func (*BookService) ListUpdateRank() []model.Book {
 	var books []model.Book
 	_ = cache.GetStruct(cache_key.IndexUpdateBookKey, &books)
 	if books == nil {
-		books = bookDao.ListRank(2, 10)
+		books = bookDao.ListRank(2, 23)
 		_ = cache.SetStruct(cache_key.IndexUpdateBookKey, &books, cache_key.IndexBookKeyTime)
 	}
 	return books

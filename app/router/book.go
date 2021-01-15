@@ -7,7 +7,7 @@ import (
 
 func LoadBook(router *gin.Engine)  {
 	bookController := controller.BookController{}
-	bookRouter := router.Group("/book")
+	bookRouter := router.Group("v1/book")
 	{
 		bookRouter.POST("/create", bookController.Create)
 		bookRouter.GET("/getList", bookController.List)

@@ -9,7 +9,7 @@ import (
 // BaseModel 用于表示model公共的部分（对应数据库公共的字段）
 
 type BaseModel struct {
-	Id         int64           `gorm:"column:id;primary_key;AUTO_INCREMENT" json:"id"`
+	Id         int64           `gorm:"column:id;primary_key;AUTO_INCREMENT" json:"id,string"`
 	CreateTime myTime.JsonTime `gorm:"autoCreateTime" json:"create_time"`
 	// UpdateTime time.Time       `gorm:"autoUpdateTime" json:"update_time"`
 	UpdateTime myTime.JsonTime `gorm:"autoCreateTime" json:"update_time"`

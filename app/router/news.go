@@ -9,7 +9,7 @@ import (
 
 func LoadNews(router *gin.Engine)  {
 	newsController := controller.NewsController{}
-	bookRouter := router.Group("/news")
+	bookRouter := router.Group("v1/news")
 	{
 		bookRouter.GET("/listIndexNews", newsController.ListIndexNews)
 		bookRouter.GET("/listByPage", newsController.ListByPage)
