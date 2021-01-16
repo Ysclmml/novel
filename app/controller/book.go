@@ -104,7 +104,7 @@ func (book *BookController) AddVisitCount(c *gin.Context) {
 	response.Ok(c)
 }
 
-// 查询章节相关信息
+// 查询章节相关信息, 同时查询首个章节id
 func (book *BookController) QueryBookIndexAbout(c *gin.Context) {
 	// go分表没有找到好的插件, 只能先进行手动的代码分表, 以后再考虑代码解耦
 	aboutDto := dto.BookIndexAboutDto{}
@@ -179,7 +179,7 @@ func (book *BookController) ListBookSetting(c *gin.Context) {
 	response.Success(c, consts.CurdStatusOkMsg, bookSettings)
 }
 
-// 获取书籍某章的内容
+// 获取书籍某章的内容, 这个接口比较大, 可以拆分出来, 内容可以单独进行请求.
 func (book *BookController) GetPageContent(c *gin.Context) {
 	var d dto.BookContentDto
 	if book.BindAndValidate(c, &d) {
@@ -208,11 +208,11 @@ func (book *BookController) GetPageContent(c *gin.Context) {
 			return
 		}
 		retMap := map[string]interface{} {
-			"preBookIndexId": preBookIndexId,
-			"nextBookIndexId": nextBookIndexId,
-			"bookContent": bookContent,
-			"indexDetail": indexDetail,
-			"bookDetail": bookDetail,
+			"pre_book_index_id": strconv.FormatInt(preBookIndexId, 10),
+			"next_book_index_id": strconv.FormatInt(nextBookIndexId, 10),
+			"book_content": bookContent,
+			"index_detail": indexDetail,
+			"book_detail": bookDetail,
 		}
 		response.Success(c, consts.CurdStatusOkMsg, retMap)
 	}

@@ -36,8 +36,9 @@ type BookIndexAboutDto struct {
 
 // 章节最新相关信息
 type BookIndexAboutRespDto struct {
-	BookIndexCount int64  `json:"book_index_count"` // 书的当前总的章节数
-	BookContent    string `json:"book_content"`     // 章节内容
+	BookIndexCount   int64  `json:"book_index_count"` // 书的当前总的章节数
+	BookContent      string `json:"book_content"`     // 章节内容
+	BookFirstIndexId int64  `json:"book_first_index_id,string"`  // 书籍首个章节id
 }
 
 // 推荐书籍需要传的数据

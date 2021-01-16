@@ -121,9 +121,12 @@ func (bs *BookService) QueryBookIndexAbout(bookId int64, bookIndexId int64, isCu
 			content = content[0:cutLen]
 		}
 	}
+	// 查询书籍首个章节id信息
+	firstId := bookIndexDao.GetFirstIndexId(bookId)
 	return &dto.BookIndexAboutRespDto{
-		BookIndexCount: count,
-		BookContent:    content,
+		BookIndexCount:   count,
+		BookContent:      content,
+		BookFirstIndexId: firstId,
 	}, nil
 }
 

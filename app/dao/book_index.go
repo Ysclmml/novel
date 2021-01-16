@@ -42,3 +42,10 @@ func (bi *BookIndex) GetIndexDetail(bookIndex int64) model.BookIndex {
 	db.Where("id = ?", bookIndex).Find(&index)
 	return index
 }
+
+func (bi *BookIndex) GetFirstIndexId(bookId int64) int64 {
+	db := bi.GetDb()
+	var index model.BookIndex
+	db.Select("id").Order("index_num").Where("book_id = ?", bookId).First(&index)
+	return index.Id
+}

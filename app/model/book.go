@@ -38,8 +38,8 @@ func (book *Book) TableName() string {
 
 // BookContent 小说内容表, 这章会进行分表
 type BookContent struct {
-	ID      int64  `gorm:"primary_key;column:id;type:bigint(20);not null" json:"id"` // 主键
-	IndexID int64  `gorm:"unique;column:index_id;type:bigint(20)" json:"index_id"`   // 目录章节ID
+	ID      int64  `gorm:"primary_key;column:id;type:bigint(20);not null" json:"id,string"` // 主键
+	IndexID int64  `gorm:"unique;column:index_id;type:bigint(20)" json:"index_id,string"`   // 目录章节ID
 	Content string `gorm:"column:content;type:mediumtext" json:"content"`            // 小说章节内容
 }
 
