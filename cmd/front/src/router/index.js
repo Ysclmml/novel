@@ -3,9 +3,11 @@ import VueRouter from 'vue-router'
 import Index from '../views/index/Index'
 import BookDetail from '../views/bookdetail/Index'
 import BookComment from '../views/comment/Index'
+import BookContent from '../views/bookcontent/Index'
 
 Vue.use(VueRouter)
 
+// 暂时不拆分路由...
 const routes = [
   {
     path: '/',
@@ -21,6 +23,11 @@ const routes = [
     path: '/book/comment/:bookId',
     name: 'BookComment',
     component: BookComment,
+  },
+  {
+    path: '/book/:bookId/:indexId',
+    name: 'BookContent',
+    component: BookContent,
   },
 ]
 

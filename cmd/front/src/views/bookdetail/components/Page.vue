@@ -28,7 +28,7 @@
               <a class="icon_show" href="#" onclick=""><i />展开</a>
             </div>
             <div id="optBtn" class="btns">
-              <a href="" class="btn_ora">点击阅读</a>
+              <router-link :to="{name: 'BookContent', params: {bookId: bookId, indexId: bookAbout.book_first_index_id}}" class="btn_ora">点击阅读</router-link>
               <span id="cFavs"><a href="" class="btn_ora_white btn_addsj">加入书架</a>
               </span>
             </div>
@@ -52,7 +52,7 @@
                 <ul class="list cf">
                   <li>
                     <span class="fl font16"> <a href="">{{ bookDetail.last_index_name }}</a></span>
-                    <span class="black9 fr">更新时间：{{ bookDetail.last_index_update_time | timeFormat }}</span>
+                    <span class="black9 fr">更新时间：{{ bookDetail.last_index_update_time | timeFormat('yy/MM/dd hh:mm:ss') }}</span>
                   </li>
                   <li class="zj_yl" v-html="bookAbout.book_content" />
                 <!-- 此处是该章节预览，截取最前面的42个字 -->
@@ -86,20 +86,14 @@ import ClassifyRec from "@/views/bookdetail/components/ClassifyRec";
 export default {
   name: "Page",
   components: {ClassifyRec, AuthorPart, Comment},
-  filters: {
-    timeFormat(timeString) {
-      const d = new Date(timeString)
-      console.log(timeString, '...timeFormat')
-      return dateFormat(d.getTime(), 'yy/MM/dd hh:mm:ss')
-    }
-  },
   data() {
     return {
       bookId: 0,
       bookDetail: {},
       bookAbout: {
         book_index_count: 0,
-        book_content: ''
+        book_content: '',
+        book_first_index_id: ''
       }
     }
   },

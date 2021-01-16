@@ -27,7 +27,7 @@
               <i class="" />
             </td>
             <td class="author"><a>{{ item.author_name }}</a></td>
-            <td class="time">{{ item.last_index_update_time | timeFormat }}</td>
+            <td class="time">{{ item.last_index_update_time | timeFormat('MM/dd hh:mm') }}</td>
           </tr>
         </tbody>
       </table>
@@ -40,12 +40,6 @@ import {dateFormat} from "@/utils";
 
 export default {
   name: "UpdatePart",
-  filters: {
-    timeFormat(time) {
-      const d = new Date(time)
-      return dateFormat(d.getTime(), 'MM/dd hh:mm')
-    }
-  },
   props: {
     booksList: {
       type: Array,

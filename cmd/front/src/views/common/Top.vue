@@ -10,7 +10,10 @@
           </div>
         </div>
         <div class="bookShelf fr" id="headerUserInfo">
-          <a class="sj_link" href="/user/favorites.html">我的书架</a>
+          <a class="sj_link" href="/user/favorites.html">
+            <svg-icon icon-class="icon_sj" class="icon-shelf"></svg-icon>
+            我的书架
+          </a>
           <span class="user_link"><i class="line mr20">|</i><a href="/user/login.html" class="mr15">登录</a><a
               href="/user/register.html">注册</a></span>
         </div>
@@ -33,10 +36,19 @@
 </template>
 
 <script>
+import SvgIcon from "@/components/svg/SvgIcon";
 export default {
-  name: 'Top'
+  name: 'Top',
+  components: {SvgIcon}
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.sj_link {
+  .icon-shelf {
+    font-size: 23px;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+}
 </style>

@@ -46,3 +46,13 @@ https://github.com/gin-gonic/gin/issues/430#issuecomment-141774133
 
 异常错误信息需要再统一下, 现在写的有点乱了. 
 
+
+
+前端项目搭建:
+
+前端使用vue来搭建项目
+
+项目路径在cmd/front路径下. 
+
+当前已写完首页和详情页两个页面. 
+

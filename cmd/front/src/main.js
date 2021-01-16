@@ -12,6 +12,8 @@ import {
   vueLazyloadReigster
 } from '@/plugins/component-register'
 import 'amfe-flexible'
+import '@/components/svg'
+import { registerFilters } from "@/filters";
 
 // 去除body的size属性
 if (document.body) {
@@ -27,6 +29,9 @@ Vue.config.productionTip = false
 // * ----------------------------------------
 elementUiRegister()
 vueLazyloadReigster()
+
+// 注册全局过滤器
+registerFilters()
 
 new Vue({
   router,

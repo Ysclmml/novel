@@ -418,7 +418,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
   padding-left: 30px;
   font-size: 15px;
   color: #404040;
-  background: url("/images/icon_sj.png") no-repeat 6px 50%;
+  /*background: url("/images/icon_sj.png") no-repeat 6px 50%;*/
   float: left
 }
 

@@ -87,3 +87,11 @@ export function addVisitCount (bookId) {
         }
     })
 }
+
+// 添加访问量
+export function getBookContent (bookId, indexId) {
+    return instance({
+        url: `/v1/book/content/${bookId}/${indexId}`,
+        method: 'get'
+    })
+}
