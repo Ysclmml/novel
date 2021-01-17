@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getLocal } from './mylocal.js'
+import myLocal from './mylocal.js'
 import Message from "element-ui/packages/message/src/main";
 
 // 创建axios副本
@@ -13,8 +13,8 @@ let instance = axios.create({
 instance.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
   // 请求拦截器中，如果有token，请求中添加token
-  if (getLocal()) {
-    config.headers.token = getLocal('token')
+  if (myLocal.getLocal()) {
+    config.headers.token = myLocal.getLocal('token')
   }
   return config
 }, function (error) {

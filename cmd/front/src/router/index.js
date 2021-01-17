@@ -1,33 +1,29 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Index from '../views/index/Index'
-import BookDetail from '../views/bookdetail/Index'
-import BookComment from '../views/comment/Index'
-import BookContent from '../views/bookcontent/Index'
 
 Vue.use(VueRouter)
 
-// 暂时不拆分路由...
+// 暂时不拆分路由..., 延迟加载组件, 让组件内的样式能够局部导入生效.
 const routes = [
   {
     path: '/',
     name: 'Index',
-    component: Index
+    component: () => import('@/views/index/Index')
   },
   {
     path: '/book/:bookId',
     name: 'BookDetail',
-    component: BookDetail,
+    component: () => import('@/views/bookdetail/Index')
   },
   {
     path: '/book/comment/:bookId',
     name: 'BookComment',
-    component: BookComment,
+    component: () => import('@/views/comment/Index')
   },
   {
     path: '/book/:bookId/:indexId',
     name: 'BookContent',
-    component: BookContent,
+    component: () => import('@/views/bookcontent/Index')
   },
 ]
 

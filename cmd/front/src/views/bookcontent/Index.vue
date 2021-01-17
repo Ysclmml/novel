@@ -11,12 +11,10 @@ import Page from './components/Page'
 import Top from '@/views/common/Top'
 import Footer from '@/views/common/Footer'
 
+let originalStyle
+
 export default {
-name: "Index",
-  components: {Top, Footer, Page}
+  name: "Index",
+  components: {Top, Footer, Page},
 }
 </script>
-
-<style scoped>
-
-</style>

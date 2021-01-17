@@ -12,5 +12,4 @@
 @import url(~@/style/base.css);
 @import url(~@/style/main.css);
 @import url(~@/style/book.css);
-@import url(~@/style/read.css);
 </style>

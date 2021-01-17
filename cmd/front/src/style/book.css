@@ -49,7 +49,7 @@
 .readPopup { border: 1px solid #D9D9D9; border-radius: 3px; background: #FFF; box-shadow: 0 1px 2px #999; overflow: hidden; padding-bottom: 20px; z-index: 9999; position: fixed; left: 50%; top: 50% }
 .icon_check { position: absolute; width: 29px; height: 25px; right: -1px; top: -1px; z-index: 2; background: url(/images/icon_readpage.png) no-repeat 0 -142px }
 .on .icon_check { display: block }
-.closePopup { position: absolute; top: 20px; right: 20px; width: 16px; height: 15px; background: url(/images/icon_readpage.png) no-repeat -43px -126px }
+.closePopup { position: absolute; top: 10px; right: 10px; width: 16px; height: 15px; font-size: 30px}
 .chapterBox { width: 600px; margin-left: -300px; margin-top: -260px }
 .chapterBox .scrollWrap { height: 540px }
 /*弹窗内容*/

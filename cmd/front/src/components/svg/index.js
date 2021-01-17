@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import SvgIcon from './SvgIcon'
 
-Vue.use(`svg-icon`, SvgIcon)
+//eslint-disable-next-line vue/match-component-file-name
+Vue.component(`SvgIcon`, SvgIcon)
 // requires and returns all modules that match
 const requireAll = requireContext => requireContext.keys().map(requireContext)
 

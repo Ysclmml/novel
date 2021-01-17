@@ -7,7 +7,7 @@ body { /*background-color: #4a4a4a;*/ color: #333; font-family: "Microsoft YaHei
 .topMain { box-shadow: 0 1px 4px rgba(0,0,0,.1); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#66ffffff,endColorstr=#66ffffff); background: none; background: rgba(255,255,255,.4) }
 .read_style_6 .topMain { border-bottom: 1px solid #444; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#0cffffff,endColorstr=#0cffffff); background: rgba(255,255,255,.05) }
 /*颜色：浅黄白、护眼绿、粉色、浅黄、浅灰、夜间黑*/
-body, .read_style_1 { background-color: #ebe5d8 }
+.read_style_1 { background-color: #ebe5d8 }
 .read_style_2 { background-color: #cbdec9 }
 .read_style_3 { background-color: #edd4d4 }
 .read_style_4 { background-color: #e0cfa3 }
@@ -90,7 +90,7 @@ body, .read_style_1 { background-color: #ebe5d8 }
 /*固定悬浮图层*/
 .readPopup { border: 1px solid #D9D9D9; border-radius: 3px; background: #FFF; box-shadow: 0 1px 2px #999; overflow: hidden; padding-bottom: 20px; z-index: 9999; position: fixed; left: 50%; top: 50% }
 .icon_check { position: absolute; width: 29px; height: 25px; right: -1px; top: -1px; z-index: 2; background-position: 0 -142px }
-.closePopup { position: absolute; top: 20px; right: 20px; width: 16px; height: 15px; background-posion: -43px -126px }
+.closePopup { position: absolute; top: 10px; right: 10px; width: 16px; height: 15px; cursor: pointer; z-index: 10000}
 .chapterBox { width: 600px; margin-left: -300px; margin-top: -260px }
 .chapterBox .scrollWrap { height: 540px }
 /*弹窗内容*/
