@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 // 暂时不拆分路由..., 延迟加载组件, 让组件内的样式能够局部导入生效.
+// 下面写路由需要保证静态路由放上面, 带路径参数的放下面, 防止被提前匹配了.
 const routes = [
   {
     path: '/',
@@ -11,9 +12,9 @@ const routes = [
     component: () => import('@/views/index/Index')
   },
   {
-    path: '/book/:bookId',
-    name: 'BookDetail',
-    component: () => import('@/views/bookdetail/Index')
+    path: '/book/bookRanking',
+    name: 'BookRanking',
+    component: () => import('@/views/book_rank/Index')
   },
   {
     path: '/book/comment/:bookId',
@@ -21,10 +22,20 @@ const routes = [
     component: () => import('@/views/comment/Index')
   },
   {
+    path: '/book/indexList/:bookId',
+    name: 'BookIndexList',
+    component: () => import('@/views/bookindexes/Index')
+  },
+  {
+    path: '/book/:bookId',
+    name: 'BookDetail',
+    component: () => import('@/views/bookdetail/Index')
+  },
+  {
     path: '/book/:bookId/:indexId',
     name: 'BookContent',
     component: () => import('@/views/bookcontent/Index')
-  },
+  }
 ]
 
 const router = new VueRouter({

@@ -22,7 +22,7 @@
             </div>
           </li>
         </ul>
-        <div class="more"><a href="">查看更多&gt;</a></div>
+        <div class="more"><router-link :to="{name: 'BookRanking', query: {rank_type: rankBookType[rankType]}}">查看更多&gt;</router-link></div>
       </div>
     </div>
   </div>
@@ -33,6 +33,12 @@ const rankName = {
   click: '点击榜单',
   new: '新书榜单',
   update: '更新榜单',
+}
+
+const rankBookType = {
+  click: 0,
+  new: 1,
+  update: 2
 }
 
 export default {
@@ -49,7 +55,8 @@ export default {
   },
   data() {
     return {
-      rankName: rankName
+      rankName,
+      rankBookType
     }
   }
 }

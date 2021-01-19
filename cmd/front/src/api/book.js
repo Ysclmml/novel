@@ -34,6 +34,20 @@ export function listUpdateRank (params) {
     })
 }
 
+// 查看排行帮更多信息, 暂时默认30条
+export function listBooksRank (type, limit = 30) {
+    return instance({
+        url: '/v1/book/listRank',
+        method: 'get',
+        params: {
+            type,
+            limit
+        }
+    })
+}
+
+
+
 export function queryBookDetail (id) {
     return instance({
         url: '/v1/book/queryBookDetail/' + id,
@@ -93,5 +107,18 @@ export function getBookContent (bookId, indexId) {
     return instance({
         url: `/v1/book/content/${bookId}/${indexId}`,
         method: 'get'
+    })
+}
+
+// 获取书籍访问,页码, 不传pageSize表示查询所有目录列表
+export function getIndexList (bookId, page = 1, pageSize = 0) {
+    return instance({
+        url: `/v1/book/queryIndexList`,
+        method: 'get',
+        params: {
+            book_id: bookId,
+            page,
+            page_size: pageSize
+        }
     })
 }

@@ -9,9 +9,10 @@
               <ul>
                 <!-- todo: 跳转到目录页 -->
                 <li>
-                  <a class="ico_catalog" title="目录">
+                  <router-link :to="{name: 'BookIndexList', params: {bookId}}" class="ico_catalog" title="目录">
                     <svg-icon icon-class="list" class="menu-icon" />
-                    <b>目录</b></a>
+                    <b>目录</b>
+                  </router-link>
                 </li>
                 <li>
                   <a class="ico_page" title="返回书页" @click="goBookDetail(bookId)">
@@ -103,8 +104,6 @@
               </div>
             </div>
             <div class="nextPageBox">
-              <!-- todo: 目录页, 上下页 -->
-
               <el-button
                 :disabled="preIndexId === '0'"
                 :title="preIndexId === '0' ? '当前已经是第一章': '上一章'"
@@ -112,7 +111,7 @@
               >
                 上一章
               </el-button>
-              <el-button>目录</el-button>
+              <el-button @click="goIndexListPage()">目录</el-button>
               <el-button
                 :disabled="nextIndexId === '0'"
                 :title="nextIndexId === '0' ? '当前已经最后一章了': '下一章'"
@@ -244,6 +243,12 @@ export default {
         params: { bookId: this.bookId, indexId: indexId}
       })
     },
+    goIndexListPage() {
+      this.$router.push({
+        name: 'BookIndexList',
+        params: {bookId: this.bookId}
+      })
+    },
     async getContentDetail() {
       const { data } = await getBookContent(this.bookId, this.indexId)
       this.book = data.book_detail
@@ -297,8 +302,11 @@ export default {
 
 </script>
 
+<style scoped src="@/style/read.css">
+</style>
+
 <style lang="scss" scoped>
-  @import url('~@/style/read.css');
+  //@import url('~@/style/read.css');
   .menu-icon {
     font-size: 22px;
     margin: 10px calc(50% - 11px) 0;
@@ -330,10 +338,6 @@ export default {
       color: white;
       border-color: #c6e2ff;
       background-color: #ff8800;
-    }
-
-    .el-button {
-      //background-color: #ff8800
     }
   }
 </style>
