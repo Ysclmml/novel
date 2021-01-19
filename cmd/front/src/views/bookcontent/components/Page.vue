@@ -53,7 +53,7 @@
           </div>
           <div class="readWrap">
             <div class="bookNav">
-              <a href="/">首页 </a>&gt; <a href=""> {{ book.cat_name }}</a>&gt;
+              <a href="/">首页 </a>&gt; <router-link :to="{name: 'BookClass', query: {cat_id: book.cat_id}}"> {{ book.cat_name }}</router-link>&gt;
               <a @click="goBookDetail(bookId)"> {{ book.book_name }}</a>
             </div>
             <div>
@@ -228,7 +228,7 @@ export default {
       if (colorNum) {
         this.readSettings.readBgColor = colorNum
       }
-      this.SetBackUpColor(colorNum)
+      this.SetBackUpColor(this.readSettings.readBgColor)
     },
     goBookDetail(bookId) {
       this.$router.push({
@@ -306,7 +306,7 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-  //@import url('~@/style/read.css');
+
   .menu-icon {
     font-size: 22px;
     margin: 10px calc(50% - 11px) 0;
@@ -333,6 +333,15 @@ export default {
 </style>
 
 <style lang="scss">
+  /*颜色：浅黄白、护眼绿、粉色、浅黄、浅灰、夜间黑*/
+  // 下面的样式如果写在scope里面, 给body设置属性就会失败. 
+  .read_style_1 { background-color: #ebe5d8 }
+  .read_style_2 { background-color: #cbdec9 }
+  .read_style_3 { background-color: #edd4d4 }
+  .read_style_4 { background-color: #e0cfa3 }
+  .read_style_5 { background-color: #d3d3d3 }
+  .read_style_6 { background-color: #0e0f0f }
+
   .nextPageBox {
     .el-button:focus, .el-button:hover {
       color: white;

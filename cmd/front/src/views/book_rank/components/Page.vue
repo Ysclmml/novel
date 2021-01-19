@@ -26,11 +26,11 @@
                 <tbody id="bookRankList">
                   <tr v-for="(book, index) in rankList" :key="index">
                     <td class="rank"><i :class="'num' + (index + 1)">{{ index + 1 }}</i></td>
-                    <td class="style"><a>[{{ book.cat_name }}]</a></td>
+                    <td class="style"><router-link :to="{name: 'BookClass', query: {cat_id: book.cat_id}}">[{{ book.cat_name }}]</router-link></td>
                     <td class="name"><router-link :to="{name: 'BookDetail', params: {bookId: book.id}}">{{ book.book_name }}</router-link></td>
                     <td class="chapter"><router-link :to="{name: 'BookContent', params: {bookId: book.id, indexId: book.last_index_id}}">{{ book.last_index_name }}</router-link>
                     </td>
-                    <td class="author"><a href="javascript:void(0)">{{ book.author_name }}</a></td>
+                    <td class="author"><a>{{ book.author_name }}</a></td>
                     <td class="word">{{ book.word_count }}</td>
                   </tr>
                 </tbody>

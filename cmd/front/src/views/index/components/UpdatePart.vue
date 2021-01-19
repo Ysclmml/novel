@@ -20,7 +20,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in booksList" :key="index">
-            <td class="style"><a @click="goBookDetail(item.id)">[{{ item.cat_name }}]</a></td>
+            <td class="style"><router-link :to="{name: 'BookClass', query: {cat_id: item.cat_id}}">[{{ item.cat_name }}]</router-link></td>
             <td class="name"><a @click="goBookDetail(item.id)">{{ item.book_name }}</a></td>
             <td class="chapter">
               <a>{{ item.last_index_name }}</a>
@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import {dateFormat} from "@/utils";
 
 export default {
   name: "UpdatePart",

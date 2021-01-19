@@ -122,3 +122,19 @@ export function getIndexList (bookId, page = 1, pageSize = 0) {
         }
     })
 }
+
+// 获取分类列表
+export function listBookCategory () {
+    return instance({
+        url: `/v1/book/listBookCategory`,
+        method: 'get',
+    })
+}
+
+export function searchBookPage(params) {
+    return instance({
+        url: `/v1/book/searchByPage`,
+        method: 'get',
+        params
+    })
+}

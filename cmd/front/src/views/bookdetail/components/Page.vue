@@ -2,7 +2,7 @@
   <div>
     <div class="main box_center cf mb50">
       <div class="nav_sub">
-        <a href="/" />小说网站名字 &gt;<a href="">{{ bookDetail.cat_name }}</a>&gt;<a href="">{{ bookDetail.book_name }}</a>
+        <a href="/" />小说网站名字 &gt;<router-link :to="{name: 'BookClass', query: {cat_id: bookDetail.cat_id}}">{{ bookDetail.cat_name }}</router-link>&gt;<a>{{ bookDetail.book_name }}</a>
       </div>
       <div class="channelWrap channelBookInfo cf">
         <div class="bookCover cf">
@@ -47,11 +47,11 @@
                   <div class="fl">
                     <h3>最新章节</h3><span>({{ bookAbout.book_index_count }}章)</span>
                   </div>
-                  <a class="fr" href="">全部目录</a>
+                  <router-link class="fr" :to="{name: 'BookIndexList', params: {bookId}}">全部目录</router-link>
                 </div>
                 <ul class="list cf">
                   <li>
-                    <span class="fl font16"> <a href="">{{ bookDetail.last_index_name }}</a></span>
+                    <span class="fl font16"> <router-link :to="{name: 'BookContent', params: {bookId, indexId: bookDetail.last_index_id}}">{{ bookDetail.last_index_name }}</router-link></span>
                     <span class="black9 fr">更新时间：{{ bookDetail.last_index_update_time | timeFormat('yy/MM/dd hh:mm:ss') }}</span>
                   </li>
                   <li class="zj_yl" v-html="bookAbout.book_content" />

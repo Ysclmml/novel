@@ -17,6 +17,11 @@ const routes = [
     component: () => import('@/views/book_rank/Index')
   },
   {
+    path: '/book/bookClass',
+    name: 'BookClass',
+    component: () => import('@/views/book_class/Index')
+  },
+  {
     path: '/book/comment/:bookId',
     name: 'BookComment',
     component: () => import('@/views/comment/Index')

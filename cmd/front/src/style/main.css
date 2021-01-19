@@ -82,9 +82,9 @@
 .updateTable .style { width: 80px; font-size: 14px; }
 .updateTable .name { width: 192px; padding-right: 10px; font-size: 14px; }
 .updateTable .name a, .updateTable .chapter a { max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; word-break: keep-all }
-.updateTable .chapter { padding-right: 5px }
-.updateTable .chapter a { max-width: 200px; float: left; color: #666 }
-.updateTable .author { width: 82px; text-align: left }
+.updateTable .chapter { padding-right: 2px }
+.updateTable .chapter a { max-width: 160px; float: left; color: #666 }
+.updateTable .author { width: 100px; text-align: left }
 .updateTable .time { width: 82px; text-align: center }
 .updateTable .word { width: 60px; padding-right: 10px; text-align: right }
 .updateTable .rank { width: 60px; padding-right: 10px; text-align: center }
