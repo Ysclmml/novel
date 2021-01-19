@@ -12,6 +12,7 @@ import (
 	"novel/app/global/consts"
 	"novel/app/log"
 	"novel/app/model"
+	SysTime "time"
 )
 
 var bookDao = dao.Book{}
@@ -277,4 +278,24 @@ func (bs *BookService) GetIndexDetail(indexId int64) (*model.BookIndex, error) {
 		return nil, errors.New("不存在当前章节")
 	}
 	return &index, nil
+}
+
+func (bs *BookService) SearchByPage(d *dto.BookSP) ([]model.Book, int64) {
+	if d.UpdatePeriod != 0 {
+		now := SysTime.Now()
+		period := SysTime.Duration(d.UpdatePeriod) * SysTime.Second * SysTime.Duration(86400)
+		now.Add(-period)
+		d.UpdateMinDate = now.Add(-period)
+	}
+	if d.SortType != 0 {
+		switch d.SortType {
+		case 1:
+			d.SortColumn = "last_index_update_time"
+		case 2:
+			d.SortColumn = "word_count"
+		case 3:
+			d.SortColumn = "visit_count"
+		}
+	}
+	return bookDao.SearchByPage(d)
 }

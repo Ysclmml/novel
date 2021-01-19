@@ -63,7 +63,11 @@ func (book *BookController) ListBookCategory(c *gin.Context) {
 
 // 分页搜索
 func (book *BookController) SearchByPage(c *gin.Context) {
-
+	var bookSp dto.BookSP
+	if book.BindAndValidate(c, &bookSp) {
+		books, count := bookService.SearchByPage(&bookSp)
+		response.PageSuccess(c, books, count)
+	}
 }
 
 // 查询小说详情信息

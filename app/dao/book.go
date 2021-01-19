@@ -190,3 +190,34 @@ func (book *Book) QueryNearBookIndexId(bookId int64, indexId int64, preOrNext bo
 	}
 	return 0
 }
+
+func (book *Book) SearchByPage(d *dto.BookSP) ([]model.Book, int64) {
+	db := book.GetDb()
+	var count int64
+	var books []model.Book
+	db = db.Debug().Table("book").Where("work_direction = ?", d.WorkDirection)
+	if d.IsVip != nil {
+		db = db.Where("is_vip = ?", d.IsVip)
+	}
+	if d.BookStatus != nil {
+		db = db.Where("book_status = ?", d.BookStatus)
+	}
+	if d.WordCountMin != 0 {
+		db = db.Where("word_count >= ?", d.WordCountMin)
+	}
+	if d.WordCountMax != 0 {
+		db = db.Where("word_count <= ?", d.WordCountMax)
+	}
+	if !d.UpdateMinDate.IsZero() {
+		db = db.Where("last_index_update_time >= ?", d.UpdateMinDate)
+	}
+	if d.CatId != 0 {
+		db = db.Where("cat_id", d.CatId)
+	}
+	if d.SortType != 0 {
+		db = db.Order(d.SortColumn + " desc")
+	}
+	db.Count(&count)
+	db.Offset((d.Page - 1) * d.PageSize).Limit(d.PageSize).Find(&books)
+	return books, count
+}
